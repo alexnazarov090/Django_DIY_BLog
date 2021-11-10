@@ -1,0 +1,18 @@
+*, 
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 2em;
+}
+
+.nav__list {
+    list-style: none;
+}
