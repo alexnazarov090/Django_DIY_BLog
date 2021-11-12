@@ -66,11 +66,10 @@ class Comment(models.Model):
     # Methods
     def get_absolute_url(self):
         """Returns the url to access a particular instance of Comment."""
-        return reverse('blog:blogger-detail', args=[str(self.id)])
+        return reverse('blog:comment-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Comment object (in Admin site etc.)."""
         if len(self.description) >= 75:
             return self.description[0:74]
         return self.description
-

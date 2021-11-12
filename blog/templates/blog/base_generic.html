@@ -13,9 +13,9 @@
     <nav id="sidebar" class="sidebar">
         {% block sidebar %}
         <ul class="nav__list">
-            <li><a href="#" class="nav__link"></a>Home</li>
-            <li><a href="#" class="nav__link"></a>All blogs</li>
-            <li><a href="#" class="nav__link"></a>All bloggers</li>
+            <li><a href="{% url 'blog:index' %}" class="nav__link">Home</a></li>
+            <li><a href="{% url 'blog:blogs' %}" class="nav__link">All blogs</a></li>
+            <li><a href="#" class="nav__link">All bloggers</a></li>
         </ul>
         {% endblock %}
     </nav>
