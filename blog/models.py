@@ -61,7 +61,7 @@ class Comment(models.Model):
 
     # Metadata
     class Meta:
-        ordering = ['-post_date']
+        ordering = ['post_date']
 
     # Methods
     def get_absolute_url(self):

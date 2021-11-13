@@ -1,0 +1,17 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+<h1>{{ blogpost.title }}</h1>
+<p><strong>Post date:</strong> {{ blogpost.post_date }}</p>
+<p><strong>Author:</strong> {{ blogpost.author }}</p>
+<p><strong>Description:</strong></p>
+<p>{{ blogpost.description }}</p>
+
+<h4>Comments</h4>
+<ul>
+    {% for comment in blogpost.comment_set.all %}
+    <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}</li>
+    <hr>
+    {% endfor %}
+</ul>
+{% endblock %}

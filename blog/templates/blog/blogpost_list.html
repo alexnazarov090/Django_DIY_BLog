@@ -1,9 +1,10 @@
 {% extends "blog/base_generic.html" %}
 
 {% block content %}
+<h1>All blogs</h1>
 <ul>
     {% for blogpost in page_obj %}
-    <li><a href="{ blog.get_absolute_url }">{{ blogpost.title }}</a>({{ blogpost.post_date }}) - <a href="{% url 'blog:blogger-detail' blogpost.author.pk %}">{{ blogpost.author }}</a></li>
+    <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }}) - <a href="{{ blogpost.author.get_absolute_url }}">{{ blogpost.author }}</a></li>
     {% endfor %}
 </ul>
 

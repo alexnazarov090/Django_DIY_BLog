@@ -1,5 +1,5 @@
 from django.db.models import query
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .services import get_total_num, get_top_contributors
 from django.views import generic
@@ -33,8 +33,34 @@ class BlogPostListView(generic.ListView):
     queryset = BlogPost.objects.order_by('-post_date')
 
 
+class BlogAuthorListView(generic.ListView):
+    """
+    A view for a list of all blog posts
+    """
+    model = BlogAuthor
+    template_name = 'blog/blogger_list.html'
+    context_object_name = 'blogger_list'
+
+    queryset = BlogAuthor.objects.order_by('username')
+
+
+class BlogPostDetailView(generic.DetailView):
+    """
+    A view for a blog post detail view
+    """
+    model = BlogPost
+    context_object_name = 'blogpost'
+
+
 class BlogAuthorDetailView(generic.DetailView):
     """
     A view for a blog author detail view
     """
     model = BlogAuthor
+    template_name = 'blog/blogger_detail.html'
+    context_object_name = 'blogger'
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogAuthorDetailView, self).get_context_data(**kwargs)
+        context['blogpost_list'] = BlogPost.objects.filter(author=self.kwargs['pk'])
+        return context
