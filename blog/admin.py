@@ -32,7 +32,6 @@ class BlogAuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post_date', 'commenter', 'description', 'blog')
+    list_display = ('__str__', 'post_date', 'commenter', 'description', 'blog')
     fields = [('commenter', 'post_date'), 'description', 'blog']
     list_filter = ('commenter', 'blog')
-

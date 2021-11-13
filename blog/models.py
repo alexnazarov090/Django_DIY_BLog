@@ -54,7 +54,7 @@ class Comment(models.Model):
     """A class defining a comment model"""
 
     # Fields
-    post_date = models.DateField(null=True, blank=True)
+    post_date = models.DateTimeField(null=True, blank=True)
     description = models.TextField(max_length=1000, help_text='Enter a comment description')
     blog = models.ForeignKey(BlogPost, on_delete=models.SET_NULL, null=True, blank=True)
     commenter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
