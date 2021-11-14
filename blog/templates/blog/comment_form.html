@@ -1,0 +1,15 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="comment__blogname">
+        <h4>Post you comment for: </h4>
+        <p><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a></p>
+    </div>
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

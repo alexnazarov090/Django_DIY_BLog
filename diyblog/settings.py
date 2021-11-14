@@ -56,7 +56,8 @@ ROOT_URLCONF = 'diyblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR.joinpath('blog/templates')],
+        'DIRS': [BASE_DIR.joinpath('blog/templates'),
+                BASE_DIR.joinpath('templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,3 +127,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'blog.User'
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

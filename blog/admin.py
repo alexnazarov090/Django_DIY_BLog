@@ -13,7 +13,7 @@ class CommentsInline(admin.TabularInline):
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'post_date', 'author', 'description')
-    fields = ['title', ('author', 'post_date'), 'description']
+    fields = ['title', 'author', 'description']
     list_filter = ('author',)
 
     inlines = [CommentsInline]
@@ -33,5 +33,5 @@ class BlogAuthorAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'post_date', 'commenter', 'description', 'blog')
-    fields = [('commenter', 'post_date'), 'description', 'blog']
+    fields = ['commenter', 'description', 'blog']
     list_filter = ('commenter', 'blog')

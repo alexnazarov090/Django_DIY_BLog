@@ -17,6 +17,14 @@
             <li><a href="{% url 'blog:blogs' %}" class="nav__link">All blogs</a></li>
             <li><a href="{% url 'blog:bloggers' %}" class="nav__link">All bloggers</a></li>
         </ul>
+        <ul class="nav__list">
+            {% if user.is_authenticated %}
+                <li>User: {{ user.get_username }}</li>
+                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+            {% endif %}
+        </ul>
         {% endblock %}
     </nav>
     <main id="content">

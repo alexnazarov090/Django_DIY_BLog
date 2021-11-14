@@ -1,9 +1,11 @@
-from django.db.models import query
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.urls import reverse, reverse_lazy
 
 from .services import get_total_num, get_top_contributors
 from django.views import generic
-from .models import BlogPost, BlogAuthor
+from .models import BlogPost, BlogAuthor, Comment
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 def index(request):
@@ -35,7 +37,7 @@ class BlogPostListView(generic.ListView):
 
 class BlogAuthorListView(generic.ListView):
     """
-    A view for a list of all blog posts
+    A view for a list of all blog authors
     """
     model = BlogAuthor
     template_name = 'blog/blogger_list.html'
@@ -62,5 +64,35 @@ class BlogAuthorDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(BlogAuthorDetailView, self).get_context_data(**kwargs)
-        context['blogpost_list'] = BlogPost.objects.filter(author=self.kwargs['pk'])
+        context['blogpost_list'] = get_list_or_404(BlogPost.objects.filter(author=self.kwargs['pk']))
+        return context
+
+
+class CommentCreate(LoginRequiredMixin, CreateView):
+    """
+    A form to create a comment for blogpost
+    """
+    model = Comment
+    fields = ['description']
+
+    def get_success_url(self):
+        blogpost = get_object_or_404(BlogPost, pk = self.kwargs['pk'])
+        return reverse('blog:blog-detail', kwargs={'pk': blogpost.pk})
+
+    def form_valid(self, form):
+        """
+        Add author and associated blog to form data before setting it as valid (so it is saved to model)
+        """
+        #Add logged-in user as author of comment
+        form.instance.commenter = self.request.user
+        #Associate comment with blog based on passed id
+        form.instance.blog=get_object_or_404(BlogPost, pk = self.kwargs['pk'])
+        # Call super-class form validation behavior
+        return super(CommentCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(CommentCreate, self).get_context_data(**kwargs)
+        # Get the blogpost object from the "pk" URL parameter and add it to the context
+        context['blogpost'] = get_object_or_404(BlogPost, pk = self.kwargs['pk'])
         return context
