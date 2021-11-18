@@ -56,20 +56,15 @@ class Comment(models.Model):
     # Fields
     post_date = models.DateTimeField(null=True, blank=True, auto_now=True)
     description = models.TextField(max_length=1000, help_text='Enter a comment description')
-    blog = models.ForeignKey(BlogPost, on_delete=models.SET_NULL, null=True, blank=True)
+    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, null=True, blank=True)
     commenter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     # Metadata
     class Meta:
         ordering = ['post_date']
 
-    # Methods
-    def get_absolute_url(self):
-        """Returns the url to access a particular instance of Comment."""
-        return reverse('blog:comment-detail', args=[str(self.id)])
-
     def __str__(self):
         """String for representing the Comment object (in Admin site etc.)."""
         if len(self.description) >= 75:
-            return self.description[0:74]
+            return self.description[0:75]
         return self.description
