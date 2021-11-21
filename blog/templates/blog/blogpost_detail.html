@@ -14,11 +14,15 @@
     <h4>Comments</h4>
     <ul>
         {% for comment in blogpost.comment_set.all %}
-        <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}</li>
+        <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}
+            {% if perms.blog.change_comment %} 
+                <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}">Amend comment</a> 
+                <a href="{% url 'blog:comment-delete'  blogpost.slug comment.pk %}">Delete comment</a></li>
+            {% endif %}
         <hr>
         {% endfor %}
     </ul>
-    <p><a href="{% url 'blog:comment-create'  blogpost.pk %}">Add a new comment</a></p>
+    <p><a href="{% url 'blog:comment-create'  blogpost.slug %}">Add a new comment</a></p>
 </section>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from blog.models import BlogPost, BlogAuthor, Comment, User
+from datetime import date
 
 
 class BlogPostTest(TestCase):
@@ -10,7 +11,7 @@ class BlogPostTest(TestCase):
         test_user1.save()
 
         blogger = BlogAuthor.objects.create(username=test_user1, bio='Hi! My name is test_user1!')
-        BlogPost.objects.create(title='Test1', description='This is the test of blog post!', author=blogger)
+        BlogPost.objects.create(title='Test1', post_date=date.today(), description='This is the test of blog post!', author=blogger)
     
     def test_title_label(self):
         blogpost = BlogPost.objects.get(id=1)
@@ -44,7 +45,7 @@ class BlogPostTest(TestCase):
 
     def test_get_absolute_url(self):
         blogpost = BlogPost.objects.get(id=1)
-        self.assertEqual(blogpost.get_absolute_url(), '/blog/blog/1')
+        self.assertEqual(blogpost.get_absolute_url(), f'/blog/blog/{date.today()}-test1')
 
     def test_expected_object_name(self):
         blogpost = BlogPost.objects.get(id=1)

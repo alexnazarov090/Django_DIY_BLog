@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.fields import SlugField
 from django.db.models.fields.related import OneToOneField
 from django.urls import reverse
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -15,18 +17,23 @@ class BlogPost(models.Model):
 
     # Fields
     title = models.CharField(max_length=100, help_text='Enter a name for a blog post')
-    post_date = models.DateField(null=True, blank=True, auto_now=True)
+    post_date = models.DateField(auto_now=True)
     author = models.ForeignKey('BlogAuthor', on_delete=models.SET_NULL, null=True)
     description = models.TextField(max_length=10000, help_text='Type in blog post content')
+    slug = SlugField(max_length=100, null=False, unique=True)
 
     # Metadata
     class Meta:
         ordering = ['-post_date']
 
     # Methods
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(str(self.post_date) + '-' + self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         """Returns the url to access a particular instance of Blog post."""
-        return reverse('blog:blog-detail', args=[str(self.id)])
+        return reverse('blog:blog-detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         """String for representing the Blog object (in Admin site etc.)."""
