@@ -1,5 +1,6 @@
+from django.http import request
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -108,15 +109,9 @@ class CommentUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'blog/comment_form.html'
 
     def get_success_url(self):
-        blogpost = get_object_or_404(BlogPost, slug = self.kwargs['slug'])
+        comment = Comment.objects.get(pk=self.kwargs['pk'])
+        blogpost = comment.blog
         return reverse('blog:blog-detail', kwargs={'slug': blogpost.slug})
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(CommentUpdate, self).get_context_data(**kwargs)
-        # Get the blogpost object from the "pk" URL parameter and add it to the context
-        context['blogpost'] = get_object_or_404(BlogPost, slug = self.kwargs['slug'])
-        return context
 
 
 class CommentDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -127,5 +122,6 @@ class CommentDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Comment
 
     def get_success_url(self):
-        blogpost = get_object_or_404(BlogPost, slug = self.kwargs['slug'])
+        comment = Comment.objects.get(pk=self.kwargs['pk'])
+        blogpost = comment.blog
         return reverse('blog:blog-detail', kwargs={'slug': blogpost.slug})

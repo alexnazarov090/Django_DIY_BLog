@@ -17,7 +17,7 @@
         <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}
             {% if perms.blog.change_comment %} 
                 <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}">Amend comment</a> 
-                <a href="{% url 'blog:comment-delete'  blogpost.slug comment.pk %}">Delete comment</a></li>
+                <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}">Delete comment</a></li>
             {% endif %}
         <hr>
         {% endfor %}

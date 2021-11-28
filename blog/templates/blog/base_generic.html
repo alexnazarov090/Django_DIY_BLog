@@ -7,7 +7,7 @@
     {% block title %}<title>DIY Blog</title>{% endblock %}
     <!-- Add additional CSS in static file -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
 </head>
 <body>
     <nav id="sidebar" class="sidebar">
@@ -27,7 +27,7 @@
         </ul>
         {% endblock %}
     </nav>
-    <main id="content">
+    <main id="content" class="content">
         {% block content %}{% endblock %}
     </main>
 </body>

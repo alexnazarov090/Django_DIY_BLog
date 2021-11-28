@@ -79,9 +79,9 @@ class IndexViewTest(TestCase):
             else:
                 BlogPost.objects.create(title=f'Blog {blog_id}', description=f'This is the blog post #{blog_id}!', author=blogger3)
 
-        BlogPost.objects.create(title='Blog 17', description='This is the blog post #17!', author=blogger4)
-        BlogPost.objects.create(title='Blog 18', description='This is the blog post #18!', author=blogger5)
-        BlogPost.objects.create(title='Blog 19', description='This is the blog post #19!', author=blogger6)
+        BlogPost.objects.create(title='Blog 30', description='This is the blog post #17!', author=blogger4)
+        BlogPost.objects.create(title='Blog 31', description='This is the blog post #18!', author=blogger5)
+        BlogPost.objects.create(title='Blog 32', description='This is the blog post #19!', author=blogger6)
 
         number_of_comments = 8
         for comment_id in range(number_of_comments):
