@@ -13,6 +13,12 @@ html {
 :root {
     --clr-bg: rgb(238, 238, 229);
     --clr-primary-text: rgb(59, 37, 31);
+    --clr-sidebar-bg: rgb(59, 37, 31);
+    --clr-sidebar-text: rgb(238, 238, 229);
+    --clr-link: rgb(59, 37, 31);
+    --clr-link-hover: rgb(126, 84, 72);
+
+    --sidebar-width: 15%;
 }
 
 /* ===========Body=========== */
@@ -33,6 +39,46 @@ p {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    color: var(--clr-link);
+}
+
+a:hover {
+    text-decoration:underline;
+    color: var(--clr-link-hover);
+}
+
+/* ===========Sidebar=========== */
+.sidebar {
+    position: fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width: var(--sidebar-width);
+    color: var(--clr-sidebar-text);
+    background-color: var(--clr-sidebar-bg);
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 50% 100%, 0 100%);
+}
+
 .nav__list {
     list-style: none;
+}
+
+.nav__link {
+    display: block;
+    text-decoration: none;
+    color: var(--clr-sidebar-text);
+}
+
+.nav__link:hover {
+    color: rgb(233, 233, 131);
+}
+
+/* ===========Main=========== */
+main {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    padding: 1em 1em 0;
 }

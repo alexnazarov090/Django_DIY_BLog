@@ -1,14 +1,18 @@
 from django.http import request
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth import login, authenticate
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .services import get_total_num, get_top_contributors
 from .models import BlogPost, BlogAuthor, Comment
+from .forms import SignUpForm
+
 
 # Create your views here.
+# function-based views
 def index(request):
     """
     A view for an index page describing the site
@@ -26,6 +30,22 @@ def index(request):
     return render(request, 'blog/index.html', context=context)
 
 
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect(reverse('blog:index'))
+    else:
+        form = SignUpForm()
+    return render(request, 'blog/signup.html', {'form': form})
+
+
+# class-based views
 class BlogPostListView(generic.ListView):
     """
     A view for a list of all blog posts
