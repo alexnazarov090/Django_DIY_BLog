@@ -10,6 +10,7 @@ from django.utils.text import slugify
 
 class User(AbstractUser):
     email_confirmed = models.BooleanField(default=False)
+    is_blogger = models.BooleanField(default=False)
 
 
 class BlogPost(models.Model):
@@ -45,7 +46,7 @@ class BlogAuthor(models.Model):
 
     # Fields
     username = OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    bio = models.TextField(max_length=1000, help_text='Blog author biography')
+    bio = models.TextField(max_length=1000, help_text='Blog author biography', null=True)
 
     # Methods
     def get_absolute_url(self):

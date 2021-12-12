@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.utils.text import slugify
+from datetime import date
 
 from .services import get_total_num, get_top_contributors
 from .models import User, BlogPost, BlogAuthor, Comment
@@ -183,3 +185,54 @@ class CommentDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         comment = Comment.objects.get(pk=self.kwargs['pk'])
         blogpost = comment.blog
         return reverse('blog:blog-detail', kwargs={'slug': blogpost.slug})
+
+
+class BlogPostCreate(LoginRequiredMixin, CreateView):
+    """
+    A form to create a blogpost
+    """
+    model = BlogPost
+    fields = ['title', 'description']
+
+    def get_success_url(self):
+        return reverse('blog:blogs')
+
+    def form_valid(self, form):
+        """
+        Add author to form data before setting it as valid (so it is saved to model)
+        """
+        # Make logged-in user a blogger and add as an author of the blog post
+        if not self.request.user.is_blogger:
+            blogger = BlogAuthor.objects.create(username=self.request.user)
+            self.request.user.is_blogger = True
+            self.request.user.save()
+        else:
+            blogger = BlogAuthor.objects.get(username=self.request.user)
+        form.instance.author = blogger
+        # Make a slugfield
+        form.instance.slug = slugify(str(date.today()) + '-' + form.instance.title, allow_unicode=True)
+        # Call super-class form validation behavior
+        return super(BlogPostCreate, self).form_valid(form)
+
+
+class BlogPostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """
+    A view to update a blogpost
+    """
+    permission_required = 'blog.change_blogpost'
+    model = BlogPost
+    fields = ['title', 'description']
+
+    def get_success_url(self):
+        return reverse('blog:blogs')
+
+
+class BlogPostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    """
+    A view to delete a comment for blogpost
+    """
+    permission_required = 'blog.delete_blogpost'
+    model = BlogPost
+
+    def get_success_url(self):
+        return reverse('blog:blogs')

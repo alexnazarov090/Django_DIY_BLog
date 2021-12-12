@@ -4,10 +4,11 @@ from .models import User, BlogPost, BlogAuthor, Comment
 
 # Register your models here.
 class CustomUserAdmin(UserAdmin):
-    UserAdmin.list_display += ('email_confirmed',)
-    UserAdmin.list_filter += ('email_confirmed',)
+    UserAdmin.list_display += ('email_confirmed', 'is_blogger')
+    UserAdmin.list_filter += ('email_confirmed', 'is_blogger')
     UserAdmin.fieldsets += (
         ('Personal info', {'fields': ('email_confirmed', )}),
+        (None, {'fields': ('is_blogger', )}),
     )
 
 admin.site.register(User, CustomUserAdmin)

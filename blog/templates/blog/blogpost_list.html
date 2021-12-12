@@ -4,7 +4,13 @@
 <h1>All blogs</h1>
 <ul>
     {% for blogpost in page_obj %}
-    <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }}) - <a href="{{ blogpost.author.get_absolute_url }}">{{ blogpost.author }}</a></li>
+    <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }}) - 
+        <a href="{{ blogpost.author.get_absolute_url }}">{{ blogpost.author }}</a>
+        {% if perms.blog.change_comment %} 
+            <a href="{% url 'blog:blogpost-update'  blogpost.slug %}">Amend blogpost</a> 
+            <a href="{% url 'blog:blogpost-delete' blogpost.slug %}">Delete blogpost</a></li>
+        {% endif %}
+    </li>
     {% endfor %}
 </ul>
 
