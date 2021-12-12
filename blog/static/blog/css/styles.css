@@ -42,6 +42,7 @@ p {
 a {
     text-decoration: none;
     color: var(--clr-link);
+    display: inline-block;
 }
 
 a:hover {
@@ -72,7 +73,12 @@ a:hover {
     color: var(--clr-sidebar-text);
 }
 
-.nav__link:hover {
+.registration__link {
+    text-decoration: none;
+    color: var(--clr-sidebar-text);
+}
+
+.registration__link:hover, .nav__link:hover {
     color: rgb(233, 233, 131);
 }
 

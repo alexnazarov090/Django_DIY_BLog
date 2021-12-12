@@ -9,7 +9,7 @@ from django.utils.text import slugify
 # Create your models here.
 
 class User(AbstractUser):
-    pass
+    email_confirmed = models.BooleanField(default=False)
 
 
 class BlogPost(models.Model):

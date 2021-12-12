@@ -3,7 +3,14 @@ from django.contrib.auth.admin import UserAdmin
 from .models import User, BlogPost, BlogAuthor, Comment
 
 # Register your models here.
-admin.site.register(User, UserAdmin)
+class CustomUserAdmin(UserAdmin):
+    UserAdmin.list_display += ('email_confirmed',)
+    UserAdmin.list_filter += ('email_confirmed',)
+    UserAdmin.fieldsets += (
+        ('Personal info', {'fields': ('email_confirmed', )}),
+    )
+
+admin.site.register(User, CustomUserAdmin)
 
 
 class CommentsInline(admin.TabularInline):
