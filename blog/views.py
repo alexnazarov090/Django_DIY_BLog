@@ -125,8 +125,57 @@ class BlogAuthorDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(BlogAuthorDetailView, self).get_context_data(**kwargs)
-        context['blogpost_list'] = get_list_or_404(BlogPost.objects.filter(author=self.kwargs['pk']))
+        context['blogpost_list'] = BlogPost.objects.filter(author=self.kwargs['pk'])
         return context
+
+class BloggerProfileDetailView(generic.DetailView):
+    """
+    A view for a blogger profile detail view
+    """
+    model = BlogAuthor
+    template_name = 'blog/blogger_profile.html'
+    context_object_name = 'blogger'
+
+    def get_context_data(self, **kwargs):
+        context = super(BloggerProfileDetailView, self).get_context_data(**kwargs)
+        context['blogpost_list'] = BlogPost.objects.filter(author=self.kwargs['pk'])
+        return context
+
+
+class BloggerProfileCreate(LoginRequiredMixin, CreateView):
+    """
+    A form to create a blogger profile
+    """
+    model = BlogAuthor
+    fields = ['profile_image', 'bio']
+    success_url = reverse_lazy('blog:index')
+    template_name = 'blog/bloggerprofile_create_form.html'
+
+    def form_valid(self, form):
+        """
+        Add user to form data before setting it as valid (so it is saved to model)
+        """
+        # Make logged-in user a blogger
+        if not self.request.user.is_blogger:
+            form.instance.username = self.request.user
+            self.request.user.is_blogger = True
+            self.request.user.save()
+
+        # Call super-class form validation behavior
+        return super(BloggerProfileCreate, self).form_valid(form)
+
+
+class BloggerProfileUpdate(LoginRequiredMixin, UpdateView):
+    """
+    A form to update a blogger profile
+    """
+    model = BlogAuthor
+    fields = ['profile_image', 'bio']
+    template_name = 'blog/bloggerprofile_create_form.html'
+
+    def get_success_url(self):
+        blogauthor = BlogAuthor.objects.get(pk=self.kwargs['pk'])
+        return reverse('blog:blogger-profile', kwargs={'pk': blogauthor.pk})
 
 
 class CommentCreate(LoginRequiredMixin, CreateView):
@@ -193,22 +242,13 @@ class BlogPostCreate(LoginRequiredMixin, CreateView):
     """
     model = BlogPost
     fields = ['title', 'description']
-
-    def get_success_url(self):
-        return reverse('blog:blogs')
+    success_url = reverse_lazy('blog:blogs')
 
     def form_valid(self, form):
         """
         Add author to form data before setting it as valid (so it is saved to model)
         """
-        # Make logged-in user a blogger and add as an author of the blog post
-        if not self.request.user.is_blogger:
-            blogger = BlogAuthor.objects.create(username=self.request.user)
-            self.request.user.is_blogger = True
-            self.request.user.save()
-        else:
-            blogger = BlogAuthor.objects.get(username=self.request.user)
-        form.instance.author = blogger
+        form.instance.author = BlogAuthor.objects.get(username=self.request.user)
         # Make a slugfield
         form.instance.slug = slugify(str(date.today()) + '-' + form.instance.title, allow_unicode=True)
         # Call super-class form validation behavior
@@ -222,17 +262,13 @@ class BlogPostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'blog.change_blogpost'
     model = BlogPost
     fields = ['title', 'description']
-
-    def get_success_url(self):
-        return reverse('blog:blogs')
+    success_url = reverse_lazy('blog:blogs')
 
 
 class BlogPostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """
-    A view to delete a comment for blogpost
+    A view to delete a blogpost
     """
     permission_required = 'blog.delete_blogpost'
     model = BlogPost
-
-    def get_success_url(self):
-        return reverse('blog:blogs')
+    success_url = reverse_lazy('blog:blogs')

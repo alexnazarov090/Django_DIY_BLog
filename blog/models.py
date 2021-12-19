@@ -5,6 +5,9 @@ from django.db.models.fields.related import OneToOneField
 from django.urls import reverse
 from django.utils.text import slugify
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 
 # Create your models here.
 
@@ -45,8 +48,13 @@ class BlogAuthor(models.Model):
     """A class defining a blog author model"""
 
     # Fields
-    username = OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    username = OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, help_text='Blog author biography', null=True)
+    profile_image = models.ImageField(upload_to='blog/images', default='blog/images/default.png', null=True)
+    profile_image_thumbnail = ImageSpecField(source='profile_image',
+                                            processors=[ResizeToFill(100, 100)],
+                                            format='PNG',
+                                            options={'quality': 60})
 
     # Methods
     def get_absolute_url(self):

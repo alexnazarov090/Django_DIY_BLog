@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit',
+    'crispy_forms',
     # My Apps
     'blog.apps.BlogConfig',
 ]
@@ -126,6 +128,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -138,3 +143,4 @@ LOGIN_REDIRECT_URL = '/'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

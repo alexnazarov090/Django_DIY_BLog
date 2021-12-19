@@ -88,3 +88,14 @@ main {
     width: calc(100% - var(--sidebar-width));
     padding: 1em 1em 0;
 }
+
+.profile-image {
+    width: 15em;
+    height: 15em;
+    max-width: 15em;
+}
+
+.profile-image-thumbnail {
+    border-radius: 50%;
+    display: inline;
+}
