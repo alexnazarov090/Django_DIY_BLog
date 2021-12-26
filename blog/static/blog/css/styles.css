@@ -97,5 +97,44 @@ main {
 
 .profile-image-thumbnail {
     border-radius: 50%;
-    display: inline;
+    display: inline-block;
+}
+
+.blogpost__rating ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 50%;
+    list-style: none;
+}
+
+.blogpost__rating li {
+    margin-left: 2em;
+}
+
+.blogpost__rating li span {
+    width: fit-content;
+}
+
+.blogpost__rating__btn {
+    outline: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    cursor: pointer;
+    transform-origin: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.blogpost__rating__btn i {
+    vertical-align: baseline;
+}
+
+.blogpost__rating__btn:hover {
+    transform: scale(1.2);
+}
+
+.blogpost__comments li {
+    list-style: none;
 }

@@ -25,6 +25,8 @@ class BlogPost(models.Model):
     author = models.ForeignKey('BlogAuthor', on_delete=models.SET_NULL, null=True)
     description = models.TextField(max_length=10000, help_text='Type in blog post content')
     slug = SlugField(max_length=100, null=False, unique=True)
+    likes = models.CharField(max_length=10, default='0')
+    dislikes = models.CharField(max_length=10, default='0')
 
     # Metadata
     class Meta:

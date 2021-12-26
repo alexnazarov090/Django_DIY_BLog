@@ -20,7 +20,7 @@ class CommentsInline(admin.TabularInline):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ('slug', 'title', 'post_date', 'author', 'description')
+    list_display = ('slug', 'title', 'post_date', 'author', 'description', 'likes', 'dislikes')
     fields = ['title', 'author', 'description']
     list_filter = ('author',)
     exclude = ('slug',)

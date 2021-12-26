@@ -1,5 +1,5 @@
 from django.http import request
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -12,6 +12,9 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.utils.text import slugify
+from django.http import JsonResponse
+from django.core import serializers
+from django.views.decorators.csrf import csrf_protect
 from datetime import date
 
 from .services import get_total_num, get_top_contributors
@@ -19,6 +22,9 @@ from .models import User, BlogPost, BlogAuthor, Comment
 from .forms import SignUpForm
 from .tokens import account_activation_token
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 # function-based views
@@ -83,6 +89,36 @@ def activate(request, uidb64, token):
         return redirect(reverse('blog:index'))
     else:
         return render(request, 'blog/account_activation_invalid.html')
+
+
+def update_like_dislike_count(request, slug):
+    """
+    A view to update like/dislike count
+    """
+    clicked_elem_id = request.GET.get('clicked_elem_id')
+    blogpost = get_object_or_404(BlogPost, slug=slug)
+    blogpost_likes = int(blogpost.likes)
+    blogpost_dislikes = int(blogpost.dislikes)
+
+    if clicked_elem_id == 'blogpost__thumbs-up-btn':
+        if not request.session.get(f'has_liked_{blogpost.slug}', False):
+            blogpost.likes = str(blogpost_likes + 1)
+            if blogpost_dislikes > 0:
+                blogpost.dislikes = str(blogpost_dislikes - 1)
+            request.session[f'has_liked_{blogpost.slug}'] = True
+            request.session[f'has_disliked_{blogpost.slug}'] = False
+    else:
+        if not request.session.get(f'has_disliked_{blogpost.slug}', False):
+            blogpost.dislikes = str(blogpost_dislikes + 1)
+            if blogpost_likes > 0:
+                blogpost.likes = str(blogpost_likes - 1)
+            request.session[f'has_disliked_{blogpost.slug}'] = True
+            request.session[f'has_liked_{blogpost.slug}'] = False
+    blogpost.save()
+
+    if request.is_ajax and request.method == 'GET':
+        ser_blogpost = serializers.serialize('json', [ blogpost, ])
+        return JsonResponse({"blogpost": ser_blogpost}, status=200)
 
 
 # class-based views

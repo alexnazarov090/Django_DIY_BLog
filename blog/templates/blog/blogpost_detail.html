@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section>
+<section class="blogpost__info">
     <h1>{{ blogpost.title }}</h1>
     <p><strong>Post date:</strong> {{ blogpost.post_date }}</p>
     <p><strong>Author:</strong> {{ blogpost.author }}</p>
@@ -10,15 +10,35 @@
     <p>{{ blogpost.description }}</p>
 </section>
 
-<section>
+<section class="blogpost__rating">
+    <h4>Rate this comment</h4>
+    <ul>
+        <li>
+            <button id="blogpost__thumbs-up-btn" class="blogpost__rating__btn">
+                <i class="fas fa-thumbs-up fa-2x"></i>
+            </button> 
+            <span id="blogpost__likes-count">{{ blogpost.likes }}</span> Likes
+        </li>
+        <li>
+            <button id="blogpost__thumbs-down-btn" class="blogpost__rating__btn">
+                <i class="fas fa-thumbs-down fa-2x"></i>
+            </button> 
+            <span id="blogpost__dislikes-count">{{ blogpost.dislikes }}</span> Dislikes
+        </li>
+    </ul>
+</section>
+
+<section class="blogpost__comments">
     <h4>Comments</h4>
     <ul>
         {% for comment in blogpost.comment_set.all %}
         <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}
             {% if perms.blog.change_comment %} 
                 <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}">Amend comment</a> 
-                <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}">Delete comment</a></li>
+                <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}">Delete comment</a>
             {% endif %}
+        </li>
+            
         <hr>
         {% endfor %}
     </ul>
@@ -26,3 +46,33 @@
 </section>
 
 {% endblock %}
+
+{% block javascript %}
+{% csrf_token %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    $('#blogpost__thumbs-up-btn, #blogpost__thumbs-down-btn').click(function (e) {
+        e.preventDefault();
+        console.log($(this)[0])
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'blog:update-rating' blogpost.slug %}",
+            data : {
+                'clicked_elem_id': `${$(this)[0].id}`,
+                },
+            headers: {'X-CSRFToken': csrftoken},
+            mode: 'same-origin',
+            success: (response) => {
+                var blogpost = JSON.parse(response["blogpost"]);
+                var fields = blogpost[0]["fields"];
+                $('#blogpost__likes-count').text(`${fields['likes']}`);
+                $('#blogpost__dislikes-count').text(`${fields['dislikes']}`);
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+        }
+        });
+        
+    });
+</script>
+{% endblock javascript %}

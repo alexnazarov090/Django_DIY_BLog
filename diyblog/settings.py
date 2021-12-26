@@ -20,10 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9uajh^aul81g@77@_6=8*i68i@&uw0i3br^s0(bgu4un55qzt5'
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(mrj9-6@iwob-cys($@@e#)%-_&f$$@0hu3bg3)vld%zxoe1e-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 DEFAULT_FROM_EMAIL = 'webmaster@example.com'
 ALLOWED_HOSTS = []
 
@@ -142,5 +143,43 @@ LOGIN_REDIRECT_URL = '/'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
+
+if DEBUG:
+    for logger in LOGGING['loggers']:
+        LOGGING['loggers'][logger]['handlers'] = ['file']
