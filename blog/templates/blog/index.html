@@ -1,24 +1,46 @@
 {% extends "blog/base_generic.html" %}
 
 {% block content %}
-<header>
+<header class="header">
     <h1>DIY Blog</h1>
     <p>This is a simple blog created with Django</p>
 </header>
 
-<section>
-    <ul>
-        <li>Total number of blog posts: {{num_of_blog_posts}}</li>
-        <li>Total number of bloggers: {{num_of_bloggers}}</li>
-        <li>Total number of comments: {{num_of_comments}}</li>
+<section class="about">
+    <h3>About</h3>
+    <ul class="about__list">
+        <li class="about__list-item">
+            <h4>Total number of blog posts</h4>
+            <div>
+                <p>{{num_of_blog_posts}}</p>
+            </div>
+        </li> 
+        <li class="about__list-item">
+            <h4>Total number of bloggers</h4>
+            <div>
+                <p>{{num_of_bloggers}}</p>
+            </div>
+        </li>
+        <li class="about__list-item">
+            <h4>Total number of comments</h4>
+            <div>
+                <p>{{num_of_comments}}</p>
+            </div>
+        </li>
     </ul>
 </section>
 
-<section>
-    <h3>Top contributors:</h3>
-    <ul>
+<section class="top_contributors">
+    <h3>Top contributors</h3>
+    <ul class="top_contributors__list">
         {% for contributor, num_of_blog_posts in top_contributors.items %}
-        <li>{{contributor.username}} - posted {{num_of_blog_posts}} time{{num_of_blog_posts|pluralize}}</li>
+        <li class="top_contributors__list-item">
+            <div>
+                <img src="{{ contributor.profile_image_thumbnail.url }}" alt="{{contributor.username}} Avatar">
+                <h4>{{contributor.username}}</h4>
+                <p>Posted {{num_of_blog_posts}} time{{num_of_blog_posts|pluralize}}</p>
+            </div>
+        </li>
         {% endfor %}
     </ul>
 </section>

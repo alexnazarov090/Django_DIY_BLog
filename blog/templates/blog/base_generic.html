@@ -22,7 +22,7 @@
             {% if user.is_authenticated %}
                 {% if user.is_blogger %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="fas fa-star fa-sm"></i></span></li>
-                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link">My Profile</a></li>
+                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link">Your Blogger Profile</a></li>
                     <li><a href="{% url 'blog:blogpost-create' %}" class="nav__link">Create a blogpost</a></li>
                 {% else %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="far fa-star fa-sm"></i></span></li>
