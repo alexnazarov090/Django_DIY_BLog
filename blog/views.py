@@ -58,21 +58,21 @@ def signup(request):
             if user.is_authenticated:
                 current_site = get_current_site(request)
                 subject = 'Activate Your Blog Account'
-                message = render_to_string('blog/account_activation_email.html', {
+                message = render_to_string('registration/account_activation_email.html', {
                     'user': user,
                     'domain': current_site.domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
                 user.email_user(subject, message)
-                return redirect(reverse('blog:account_activation_sent'))
+                return redirect(reverse('account_activation_sent'))
             return redirect(reverse('blog:index'))
     else:
         form = SignUpForm()
-    return render(request, 'blog/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 def account_activation_sent(request):
-    return render(request, 'blog/account_activation_sent.html')
+    return render(request, 'registration/account_activation_sent.html')
 
 def activate(request, uidb64, token):
     try:
@@ -88,7 +88,7 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect(reverse('blog:index'))
     else:
-        return render(request, 'blog/account_activation_invalid.html')
+        return render(request, 'registration/account_activation_invalid.html')
 
 
 def update_like_dislike_count(request, slug):
@@ -119,6 +119,36 @@ def update_like_dislike_count(request, slug):
     if request.is_ajax and request.method == 'GET':
         ser_blogpost = serializers.serialize('json', [ blogpost, ])
         return JsonResponse({"blogpost": ser_blogpost}, status=200)
+
+
+def validate_username(request):
+    """
+    A view to check username and email address
+    """
+    if request.is_ajax and request.method == 'GET':
+        username = request.GET.get('username')
+        data = {}.fromkeys(('valid', 'error_message'))
+        data['valid'] = True
+
+        if User.objects.filter(username__iexact=username).exists():
+            data['valid'], data['error_message'] = False, 'A user with this username already exists!'
+
+        return JsonResponse(data, status=200)
+
+
+def validate_email(request):
+    """
+    A view to check username and email address
+    """
+    if request.is_ajax and request.method == 'GET':
+        email = request.GET.get('email')
+        data = {}.fromkeys(('valid', 'error_message'))
+        data['valid'] = True
+
+        if User.objects.filter(email__iexact=email).exists():
+            data['valid'], data['error_message'] = False, 'A user with this email already exists!'
+
+        return JsonResponse(data, status=200)
 
 
 # class-based views

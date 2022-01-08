@@ -20,16 +20,17 @@
         </ul>
         <ul class="nav__list">
             {% if user.is_authenticated %}
-                <li>User: {{ user.get_username }}</li>
                 {% if user.is_blogger %}
+                <li>User: {{ user.get_username }}<span class="status-icon"><i class="fas fa-star fa-sm"></i></span></li>
                     <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link">My Profile</a></li>
                     <li><a href="{% url 'blog:blogpost-create' %}" class="nav__link">Create a blogpost</a></li>
                 {% else %}
+                <li>User: {{ user.get_username }}<span class="status-icon"><i class="far fa-star fa-sm"></i></span></li>
                     <li><a href="{% url 'blog:blogger-profile-create' %}" class="nav__link">Become a blogger</a></li>
                 {% endif %}
                 <li><a href="{% url 'logout'%}?next={{request.path}}" class="registration__link">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}" class="registration__link">Login</a>/<a href="{% url 'blog:signup' %}" class="registration__link">Signup</a></li>
+                <li><a href="{% url 'login'%}?next={{request.path}}" class="registration__link">Login</a> / <a href="{% url 'signup' %}" class="registration__link">Signup</a></li>
             {% endif %}
         </ul>
         {% endblock %}

@@ -53,7 +53,6 @@
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     $('#blogpost__thumbs-up-btn, #blogpost__thumbs-down-btn').click(function (e) {
         e.preventDefault();
-        console.log($(this)[0])
         $.ajax({
             type: 'GET',
             url: "{% url 'blog:update-rating' blogpost.slug %}",
