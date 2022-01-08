@@ -1,16 +1,28 @@
 {% extends "blog/base_generic.html" %}
 
 {% block content %}
-<h1>My Profile</h1>
-<h4><a href="{% url 'blog:blogger-profile-update'  blogger.pk %}">Edit Personal Info</a></h4>
-<h1>{{ blogger.username }}</h1>
-<img src="{{ blogger.profile_image.url }}" alt="Avatar" class="profile-image">
-<h2>Bio</h2>
-<p>{{ blogger.bio }}</p>
-<h2>My Blog Posts</h2>
-<ul>
-    {% for blogpost in blogpost_list %}
-    <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
-    {% endfor %}
-</ul>
+
+<div>
+    <h1>My Profile</h1>
+    <h4>
+        <a href="{% url 'blog:blogger-profile-update'  blogger.pk %}">Edit Personal Info</a>
+    </h4>
+</div>
+
+<div>
+    <h1>{{ blogger.username }}</h1>
+    <img src="{{ blogger.profile_image.url }}" alt="Avatar" class="profile-image">
+    <h2>Bio</h2>
+    <p>{{ blogger.bio }}</p>
+</div>
+
+<div>
+    <h2>My Blog Posts</h2>
+    <ul>
+        {% for blogpost in blogpost_list %}
+        <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

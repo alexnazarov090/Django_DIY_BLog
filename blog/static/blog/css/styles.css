@@ -17,8 +17,10 @@ html {
     --clr-sidebar-text: rgb(238, 238, 229);
     --clr-link: rgb(59, 37, 31);
     --clr-link-hover: rgb(126, 84, 72);
+    --clr-about-list-item-bg: rgb(59, 37, 31);
+    --clr-about-list-item-text: rgb(238, 238, 229);
 
-    --sidebar-width: 15%;
+    --sidebar-width: 20%;
 }
 
 /* ===========Body=========== */
@@ -39,6 +41,25 @@ p {
     margin: 0;
 }
 
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.25em;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+h3{
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+p{
+    margin-bottom: 0.7em;
+}
+
 a {
     text-decoration: none;
     color: var(--clr-link);
@@ -53,14 +74,11 @@ a:hover {
 /* ===========Sidebar=========== */
 .sidebar {
     position: fixed;
-    top:0;
-    left:0;
-    height:100vh;
-    width: var(--sidebar-width);
-    color: var(--clr-sidebar-text);
-    background-color: var(--clr-sidebar-bg);
-    overflow: hidden;
-    clip-path: polygon(0 0, 100% 0, 50% 100%, 0 100%);
+    transform: scale(0, 1);
+    height: 100vh;
+    transform-origin: left;
+    transition: 400ms ease-in-out;
+    overflow: auto;
 }
 
 .nav__list {
@@ -71,6 +89,8 @@ a:hover {
     display: block;
     text-decoration: none;
     color: var(--clr-sidebar-text);
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
 }
 
 .registration__link {
@@ -84,10 +104,114 @@ a:hover {
 
 /* ===========Main=========== */
 main {
-    margin-left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
+    margin: 0;
+    width: 100%;
     padding: 1em 1em 0;
 }
+
+/* ===========Index Page=========== */
+.header {
+    height: auto;
+}
+
+.header p {
+    font-size: 1.5em;
+}
+
+.about {
+    height: auto;
+}
+
+.about__list {
+    list-style: none;
+    padding:0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.about__list-item {
+    position: relative;
+    text-align: center;
+    margin-left: 0.5em;
+    margin-bottom: 1.5em;
+}
+
+.about__list-item div::before {
+    position: absolute;
+    content: "";
+    z-index: 1;
+    background-color: var(--clr-about-list-item-bg);
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.about__list-item div {
+    position: relative;
+    height: 10em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about__list-item div p {
+    color: var(--clr-about-list-item-text);
+    z-index: 10;
+    font-size: 4rem;
+    margin: 0;
+}
+
+.top_contributors {
+    height: auto;
+}
+
+.top_contributors__list {
+    list-style: none;
+    padding:0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.top_contributors__list-item {
+    text-align: center;
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.top_contributors__list-item div {
+    position: relative;
+    height: 15em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top_contributors__list-item div img {
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    box-shadow: 0.2em -0.2em 0.5em rgb(24, 23, 23);
+}
+
+.top_contributors__list-item div p {
+    color: var(--clr-primary-text);
+    z-index: 10;
+    font-size: 2rem;
+    margin: 0;
+}
+
 
 .profile-image {
     width: 15em;
@@ -141,4 +265,35 @@ main {
 
 .status-icon {
     margin-left: 0.5em;
+}
+
+
+/* ===========Media Queries=========== */
+@media only screen and (min-width: 1200px){
+
+    /* ===========Sidebar=========== */
+    .sidebar {
+        transform: scale(1, 1);
+        position: fixed;
+        top:0;
+        left:0;
+        height:100vh;
+        width: var(--sidebar-width);
+        color: var(--clr-sidebar-text);
+        background-color: var(--clr-sidebar-bg);
+        overflow: hidden;
+        clip-path: polygon(0 0, 100% 0, 50% 100%, 0 100%);
+    }
+
+    .nav__link, .registration__link {
+        opacity: 1;
+        transition: opacity 250ms ease-in-out 250ms;
+    }
+
+    /* ===========Main=========== */
+    main {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+        padding: 1em 1em 0;
+    }
 }
