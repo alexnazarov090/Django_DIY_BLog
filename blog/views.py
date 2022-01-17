@@ -100,20 +100,38 @@ def update_like_dislike_count(request, slug):
     blogpost_likes = int(blogpost.likes)
     blogpost_dislikes = int(blogpost.dislikes)
 
+    if len(blogpost.liked_disliked_users) == 0:
+        blogpost.liked_disliked_users = dict(liked_users=[], disliked_users=[])
+    blogpost_liked_users = blogpost.liked_disliked_users['liked_users']
+    blogpost_disliked_users = blogpost.liked_disliked_users['disliked_users']
+
     if clicked_elem_id == 'blogpost__thumbs-up-btn':
-        if not request.session.get(f'has_liked_{blogpost.slug}', False):
+        if str(request.user.id) not in blogpost_liked_users:
             blogpost.likes = str(blogpost_likes + 1)
+            blogpost_liked_users.append(str(request.user.id))
+        else:
+            blogpost.likes = str(blogpost_likes - 1)
+            blogpost_liked_users.remove(str(request.user.id))
+
+        if str(request.user.id) in blogpost_disliked_users:
+            blogpost_disliked_users.remove(str(request.user.id))
             if blogpost_dislikes > 0:
                 blogpost.dislikes = str(blogpost_dislikes - 1)
-            request.session[f'has_liked_{blogpost.slug}'] = True
-            request.session[f'has_disliked_{blogpost.slug}'] = False
-    else:
-        if not request.session.get(f'has_disliked_{blogpost.slug}', False):
+
+    elif clicked_elem_id == 'blogpost__thumbs-down-btn':
+        if str(request.user.id) not in blogpost_disliked_users:
             blogpost.dislikes = str(blogpost_dislikes + 1)
+            blogpost_disliked_users.append(str(request.user.id))
+        else:
+            blogpost.dislikes = str(blogpost_dislikes - 1)
+            blogpost_disliked_users.remove(str(request.user.id))
+
+        if str(request.user.id) in blogpost_liked_users:
+            blogpost_liked_users.remove(str(request.user.id))
             if blogpost_likes > 0:
                 blogpost.likes = str(blogpost_likes - 1)
-            request.session[f'has_disliked_{blogpost.slug}'] = True
-            request.session[f'has_liked_{blogpost.slug}'] = False
+    
+    logger.info(blogpost.liked_disliked_users)
     blogpost.save()
 
     if request.is_ajax and request.method == 'GET':
@@ -179,6 +197,13 @@ class BlogPostDetailView(generic.DetailView):
     """
     model = BlogPost
     context_object_name = 'blogpost'
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogPostDetailView, self).get_context_data(**kwargs)
+        blogpost = get_object_or_404(BlogPost, slug = self.kwargs['slug'])
+        context['is_liked'] = str(self.request.user.id) in blogpost.liked_disliked_users['liked_users']
+        context['is_disliked'] = str(self.request.user.id) in blogpost.liked_disliked_users['disliked_users']
+        return context
 
 
 class BlogAuthorDetailView(generic.DetailView):

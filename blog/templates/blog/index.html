@@ -36,7 +36,9 @@
         {% for contributor, num_of_blog_posts in top_contributors.items %}
         <li class="top_contributors__list-item">
             <div>
-                <img src="{{ contributor.profile_image_thumbnail.url }}" alt="{{contributor.username}} Avatar">
+                <div class="top_contributors__image-wrapper">
+                    <img src="{{ contributor.profile_image_thumbnail.url }}" alt="{{contributor.username}} Avatar">
+                </div>
                 <h4>{{contributor.username}}</h4>
                 <p>Posted {{num_of_blog_posts}} time{{num_of_blog_posts|pluralize}}</p>
             </div>

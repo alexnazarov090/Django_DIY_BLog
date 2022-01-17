@@ -23,10 +23,13 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=100, help_text='Enter a name for a blog post')
     post_date = models.DateField(auto_now=True)
     author = models.ForeignKey('BlogAuthor', on_delete=models.SET_NULL, null=True)
-    description = models.TextField(max_length=10000, help_text='Type in blog post content')
+    description = models.TextField(help_text='Type in blog post content')
     slug = SlugField(max_length=100, null=False, unique=True)
     likes = models.CharField(max_length=10, default='0')
     dislikes = models.CharField(max_length=10, default='0')
+    liked_disliked_users = models.JSONField(null=False, default=dict)
+    image = models.ImageField(upload_to='blog/images', default='blog/images/blog-default-image.jpg', null=True)
+
 
     # Metadata
     class Meta:

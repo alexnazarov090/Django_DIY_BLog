@@ -4,24 +4,28 @@
 
 <section class="blogpost__info">
     <h1>{{ blogpost.title }}</h1>
-    <p><strong>Post date:</strong> {{ blogpost.post_date }}</p>
+    <p><strong>Post date:</strong> {{ blogpost.post_date|date:"d M Y" }}</p>
     <p><strong>Author:</strong> {{ blogpost.author }}</p>
-    <p><strong>Description:</strong></p>
+    <img src="{{blogpost.image.url}}" alt="{{blogpost.title}} Image">
     <p>{{ blogpost.description }}</p>
 </section>
 
 <section class="blogpost__rating">
-    <h4>Rate this comment</h4>
+    <h4>Rate this post</h4>
     <ul>
         <li>
             <button id="blogpost__thumbs-up-btn" class="blogpost__rating__btn">
-                <i class="fas fa-thumbs-up fa-2x"></i>
+                <i class="{% if is_liked %}fas
+                    {% else %}far
+                    {% endif %} fa-thumbs-up fa-2x"></i>
             </button> 
             <span id="blogpost__likes-count">{{ blogpost.likes }}</span> Likes
         </li>
         <li>
             <button id="blogpost__thumbs-down-btn" class="blogpost__rating__btn">
-                <i class="fas fa-thumbs-down fa-2x"></i>
+                <i class="{% if is_disliked %}fas
+                    {% else %}far
+                    {% endif %} fa-thumbs-down fa-2x"></i>
             </button> 
             <span id="blogpost__dislikes-count">{{ blogpost.dislikes }}</span> Dislikes
         </li>
@@ -32,7 +36,7 @@
     <h4>Comments</h4>
     <ul>
         {% for comment in blogpost.comment_set.all %}
-        <li>{{ comment.commenter }} ({{ comment.post_date }}) - {{ comment.description }}
+        <li>{{ comment.commenter }} ({{ comment.post_date|date:"d M Y" }}) - {{ comment.description }}
             {% if perms.blog.change_comment %} 
                 <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}">Amend comment</a> 
                 <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}">Delete comment</a>
@@ -50,28 +54,47 @@
 {% block javascript %}
 {% csrf_token %}
 <script>
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     $('#blogpost__thumbs-up-btn, #blogpost__thumbs-down-btn').click(function (e) {
         e.preventDefault();
-        $.ajax({
-            type: 'GET',
-            url: "{% url 'blog:update-rating' blogpost.slug %}",
-            data : {
-                'clicked_elem_id': `${$(this)[0].id}`,
+        if (user !== 'AnonymousUser') {
+            const clickedElemId = `${$(this)[0].id}`;
+
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'blog:update-rating' blogpost.slug %}",
+                data : {
+                    'clicked_elem_id': clickedElemId,
+                    },
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin',
+                success: (response) => {
+
+                    let thumbIcon = $(this).children("i");
+
+                    if (thumbIcon.hasClass("fas")) {
+                        thumbIcon.removeClass("fas").addClass('far');
+                    } else {
+                        thumbIcon.removeClass('far').addClass('fas');
+                        if (clickedElemId === 'blogpost__thumbs-up-btn') {
+                            $('#blogpost__thumbs-down-btn').children("i").removeClass('fas').addClass('far');
+                        } else if (clickedElemId === 'blogpost__thumbs-down-btn') {
+                                $('#blogpost__thumbs-up-btn').children("i").removeClass('fas').addClass('far');
+                            }
+                        }
+
+                    let blogpost = JSON.parse(response["blogpost"]);
+                    let fields = blogpost[0]["fields"];
+                    $('#blogpost__likes-count').text(`${fields['likes']}`);
+                    $('#blogpost__dislikes-count').text(`${fields['dislikes']}`);
                 },
-            headers: {'X-CSRFToken': csrftoken},
-            mode: 'same-origin',
-            success: (response) => {
-                var blogpost = JSON.parse(response["blogpost"]);
-                var fields = blogpost[0]["fields"];
-                $('#blogpost__likes-count').text(`${fields['likes']}`);
-                $('#blogpost__dislikes-count').text(`${fields['dislikes']}`);
-            },
-            error: function (xhr, errmsg, err) {
-                console.log(xhr.status + ": " + xhr.responseText);
+
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+        } else {
+            window.location.replace("{% url 'login'%}?next={{request.path}}");
         }
-        });
-        
     });
 </script>
 {% endblock javascript %}

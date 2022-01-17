@@ -165,14 +165,23 @@ LOGGING = {
             'formatter': 'simple'
         },
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': 'general.log',
             'formatter': 'simple'
         },
     },
+    'root': {
+        'handlers': ['file'],
+        'level': 'INFO',
+    },
     'loggers': {
         'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'blog': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
