@@ -3,9 +3,11 @@
 
 {% block content %}
 <h2>Your Blogger Profile</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">Save</button>
-</form>
+<div class="form-wrapper">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Save</button>
+    </form>
+</div>
 {% endblock %}

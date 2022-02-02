@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imagekit',
     'crispy_forms',
+    'crispy_bootstrap5',
     # My Apps
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -59,8 +61,9 @@ ROOT_URLCONF = 'diyblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR.joinpath('blog/templates'),
-                BASE_DIR.joinpath('templates'),],
+        'DIRS': [BASE_DIR.joinpath('blog/templates'), 
+                BASE_DIR.joinpath('users/templates'),],
+                # BASE_DIR.joinpath('templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,7 +149,9 @@ CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
 CSRF_COOKIE_HTTPONLY = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 LOGGING = {
     'version': 1,

@@ -93,7 +93,7 @@
                 }
             });
         } else {
-            window.location.replace("{% url 'login'%}?next={{request.path}}");
+            window.location.replace("{% url 'users:login'%}?next={{request.path}}");
         }
     });
 </script>

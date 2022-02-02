@@ -28,11 +28,6 @@ class BlogPostTest(TestCase):
         field_label = blogpost._meta.get_field('description').verbose_name
         self.assertEqual(field_label, 'description')
 
-    def test_description_max_length(self):
-        blogpost = BlogPost.objects.get(id=1)
-        max_length = blogpost._meta.get_field('description').max_length
-        self.assertEqual(max_length, 10000)
-
     def test_post_date_label(self):
         blogpost = BlogPost.objects.get(id=1)
         field_label = blogpost._meta.get_field('post_date').verbose_name
