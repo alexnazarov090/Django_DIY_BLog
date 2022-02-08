@@ -248,7 +248,7 @@ class BlogPostCreate(LoginRequiredMixin, CreateView):
     A form to create a blogpost
     """
     model = BlogPost
-    fields = ['title', 'description']
+    fields = ['title', 'image', 'description']
     success_url = reverse_lazy('blog:blogs')
 
     def form_valid(self, form):
@@ -268,7 +268,7 @@ class BlogPostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """
     permission_required = 'blog.change_blogpost'
     model = BlogPost
-    fields = ['title', 'description']
+    fields = ['title', 'image', 'description']
     success_url = reverse_lazy('blog:blogs')
 
 

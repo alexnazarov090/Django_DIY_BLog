@@ -2,13 +2,16 @@
 
 {% block content %}
 <section class="blogposts">
-    <h1>All posts</h1>
+    <h1>All blog posts</h1>
     {% for blogpost in page_obj %}
         <article class="blogpost">
             <div class="blogpost__title"><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a></div>
+            <div><img src="{{ blogpost.image_thumbnail.url }}" alt="{{ blogpost.title }} Image"></div>
             <div class="blogpost__meta">
                 <span>{{ blogpost.post_date|date:"d M Y" }}</span>
                 <span>Posted by <a href="{{ blogpost.author.get_absolute_url }}">{{ blogpost.author }}</a></span>
+                <span><i class="fas fa-heart"></i> Likes {{ blogpost.likes }}</span>
+                <span><i class="fas fa-comments"></i> Comments {{ blogpost.comment_set.all.count }}</span>
             </div>
                 {% if perms.blog.change_comment %}
                 <div class="blogpost__change-section">
@@ -33,7 +36,7 @@
 
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}" class="blog__btn">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="blog__btnn">last &raquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="blog__btn">last &raquo;</a>
         {% endif %}
     </span>
 </section>

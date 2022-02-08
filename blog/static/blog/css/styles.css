@@ -13,8 +13,10 @@ html {
 :root {
     --clr-primary-text-dark: rgb(59, 37, 31);
     --clr-primary-text-light: rgb(238, 238, 229);
-    --clr-link: rgb(59, 37, 31);
-    --clr-link-hover: rgb(126, 84, 72);
+    --clr-link-dark: rgb(59, 37, 31);
+    --clr-link-dark-hover: rgb(126, 84, 72);
+    --clr-link-light: rgb(238, 238, 229);
+    --clr-link-light-hover: rgb(233, 233, 131);
     --clr-about-list-item-bg: rgb(59, 37, 31);
     --clr-about-list-item-text: rgb(238, 238, 229);
 
@@ -25,7 +27,7 @@ html {
 body {
     margin: 0;
     line-height: 1.5;
-    font-size: 2em;
+    font-size: 2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: var(--clr-primary-text-light);
     color: var(--clr-primary-text-dark);
@@ -40,18 +42,18 @@ p {
 }
 
 h1 {
-    font-size: 2.5em;
+    font-size: 3.5rem;
     margin-bottom: 0.25em;
     line-height: 1.1;
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 2.5rem;
     margin-bottom: 0.5em;
 }
 
 h3{
-    font-size: 1.5em;
+    font-size: 2rem;
     margin-bottom: 0.8em;
 }
 
@@ -97,7 +99,7 @@ a {
 .nav__link {
     display: block;
     text-decoration: none;
-    color: var(--clr-primary-text-light);
+    color: var(--clr-link-light);
     opacity: 0;
     transition: opacity 150ms ease-in-out;
 }
@@ -105,13 +107,13 @@ a {
 .registration__link {
     display: inline;
     text-decoration: none;
-    color: var(--clr-primary-text-light);
+    color: var(--clr-link-light);
     opacity: 0;
     transition: opacity 150ms ease-in-out;
 }
 
 .registration__link:hover, .nav__link:hover {
-    color: rgb(233, 233, 131);
+    color: var(--clr-link-light-hover);
 }
 
 /* ===========Main=========== */
@@ -266,13 +268,17 @@ main {
 }
 
 .blogpost__title a:hover {
-    color: var(--clr-link-hover);
+    color: var(--clr-link-dark-hover);
 }
 
 .blogpost__meta {
     display: flex;
     flex-direction: row;
     gap:2em
+}
+
+.blogpost__meta a:hover {
+    color: var(--clr-link-dark-hover);
 }
 
 .blogpost__change-section {
@@ -333,6 +339,11 @@ main {
     display: inline-block;
 }
 
+/* ===========Bootstrap=========== */
+.form-control {
+    font-size: inherit;
+}
+
 /* ===========Utility Classes=========== */
 
 .blog__btn {
@@ -347,7 +358,7 @@ main {
 }
 
 .blog__btn:hover {
-    background-color: var(--clr-link-hover);
+    background-color: var(--clr-link-dark-hover);
     transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 

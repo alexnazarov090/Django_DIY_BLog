@@ -21,7 +21,7 @@ class CommentsInline(admin.TabularInline):
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('slug', 'title', 'image', 'post_date', 'author', 'description', 'likes', 'dislikes', 'liked_disliked_users')
-    fields = ['title', 'image', 'author', 'description', 'liked_disliked_users']
+    fields = ['title', 'image', 'author', 'description']
     list_filter = ('author',)
     exclude = ('slug',)
 

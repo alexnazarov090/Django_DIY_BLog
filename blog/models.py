@@ -21,7 +21,7 @@ class BlogPost(models.Model):
 
     # Fields
     title = models.CharField(max_length=100, help_text='Enter a name for a blog post')
-    post_date = models.DateField(auto_now=True)
+    post_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey('BlogAuthor', on_delete=models.SET_NULL, null=True)
     description = models.TextField(help_text='Type in blog post content')
     slug = SlugField(max_length=100, null=False, unique=True)
@@ -29,6 +29,10 @@ class BlogPost(models.Model):
     dislikes = models.CharField(max_length=10, default='0')
     liked_disliked_users = models.JSONField(null=False, default=dict)
     image = models.ImageField(upload_to='blog/images', default='blog/images/blog-default-image.jpg', null=True)
+    image_thumbnail = ImageSpecField(source='image',
+                                    processors=[ResizeToFill(500, 300)],
+                                    format='JPEG',
+                                    options={'quality': 60})
 
 
     # Metadata
@@ -75,7 +79,7 @@ class Comment(models.Model):
     """A class defining a comment model"""
 
     # Fields
-    post_date = models.DateTimeField(auto_now=True)
+    post_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=1000, help_text='Enter a comment description')
     blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, null=True, blank=True)
     commenter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
