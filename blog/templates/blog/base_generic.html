@@ -20,23 +20,23 @@
     <nav id="sidebar" class="sidebar">
         {% block sidebar %}
         <ul class="nav__list">
-            <li><a href="{% url 'blog:index' %}" class="nav__link">Home</a></li>
-            <li><a href="{% url 'blog:blogs' %}" class="nav__link">All posts</a></li>
-            <li><a href="{% url 'blog:bloggers' %}" class="nav__link">All bloggers</a></li>
+            <li><a href="{% url 'blog:index' %}" class="nav__link link-light">Home</a></li>
+            <li><a href="{% url 'blog:blogs' %}" class="nav__link link-light">All posts</a></li>
+            <li><a href="{% url 'blog:bloggers' %}" class="nav__link link-light">All bloggers</a></li>
         </ul>
         <ul class="nav__list">
             {% if user.is_authenticated %}
                 {% if user.is_blogger %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="fas fa-star fa-sm"></i></span></li>
-                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link">Your Blogger Profile</a></li>
-                    <li><a href="{% url 'blog:blogpost-create' %}" class="nav__link">Create a blogpost</a></li>
+                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link link-light">Your Blogger Profile</a></li>
+                    <li><a href="{% url 'blog:blogpost-create' %}" class="nav__link link-light">Create a blogpost</a></li>
                 {% else %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="far fa-star fa-sm"></i></span></li>
-                    <li><a href="{% url 'blog:blogger-profile-create' %}" class="nav__link">Become a blogger</a></li>
+                    <li><a href="{% url 'blog:blogger-profile-create' %}" class="nav__link link-light">Become a blogger</a></li>
                 {% endif %}
-                <li><a href="{% url 'users:logout'%}?next={{request.path}}" class="registration__link">Logout</a></li>
+                <li><a href="{% url 'users:logout'%}?next={{request.path}}" class="registration__link link-light">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link">Sign Up</a></li>
+                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link link-light">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link">Sign Up</a></li>
             {% endif %}
         </ul>
         {% endblock %}

@@ -112,10 +112,6 @@ a {
     transition: opacity 150ms ease-in-out;
 }
 
-.registration__link:hover, .nav__link:hover {
-    color: var(--clr-link-light-hover);
-}
-
 /* ===========Main=========== */
 main {
     margin: 0;
@@ -224,6 +220,7 @@ main {
 .top_contributors__image-wrapper img {
     width: inherit;
     height: inherit;
+    border-radius: 50%;
     transform-origin: center;
     transition: all 0.5s cubic-bezier(0.25, 0.25, 0.56, 2);
 }
@@ -244,6 +241,11 @@ main {
 }
 
 /* ===========Blogposts Page=========== */
+
+.blogposts {
+    margin: 0 auto;
+    width: 80%;
+}
 
 .blogposts h1 {
     margin-bottom: 1em;
@@ -267,18 +269,10 @@ main {
     font-size: 4rem;
 }
 
-.blogpost__title a:hover {
-    color: var(--clr-link-dark-hover);
-}
-
 .blogpost__meta {
     display: flex;
     flex-direction: row;
     gap:2em
-}
-
-.blogpost__meta a:hover {
-    color: var(--clr-link-dark-hover);
 }
 
 .blogpost__change-section {
@@ -289,11 +283,19 @@ main {
 
 
 /* ===========Blogpost Detail Page=========== */
+.blogpost__info img {
+    display: block;
+    margin: 2em auto;
+    width: 90%;
+    height: auto;
+
+}
+
 .blogpost__rating ul {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 50%;
+    width: 100%;
     list-style: none;
 }
 
@@ -328,6 +330,8 @@ main {
     list-style: none;
 }
 
+
+/* ===========Blogger Profile=========== */
 .profile-image {
     width: 15em;
     height: 15em;
@@ -338,6 +342,7 @@ main {
     border-radius: 50%;
     display: inline-block;
 }
+
 
 /* ===========Bootstrap=========== */
 .form-control {
@@ -360,6 +365,19 @@ main {
 .blog__btn:hover {
     background-color: var(--clr-link-dark-hover);
     transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.link-dark:hover {
+    color: var(--clr-link-dark-hover);
+} 
+
+.link-light:hover {
+    color: var(--clr-link-light-hover);
+} 
+
+.form-wrapper {
+    width: 70%;
+    margin: 0 auto;
 }
 
 /* ===========Media Queries=========== */
@@ -389,5 +407,10 @@ main {
         margin-left: var(--sidebar-width);
         width: calc(100% - var(--sidebar-width));
         padding: 1em 1em 0;
+    }
+
+    /* ===========Blogpost Detail Page=========== */
+    .blogpost__rating ul {
+        width: 50%;
     }
 }
