@@ -43,7 +43,7 @@ p {
 
 h1 {
     font-size: 3.5rem;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
     line-height: 1.1;
 }
 
@@ -110,6 +110,10 @@ a {
     color: var(--clr-link-light);
     opacity: 0;
     transition: opacity 150ms ease-in-out;
+}
+
+.status-icon {
+    margin-left: 0.5em;
 }
 
 /* ===========Main=========== */
@@ -236,10 +240,6 @@ main {
     margin: 0;
 }
 
-.status-icon {
-    margin-left: 0.5em;
-}
-
 /* ===========Blogposts Page=========== */
 
 .blogposts {
@@ -266,12 +266,21 @@ main {
 }
 
 .blogpost__title {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.blogpost__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 30em;
+    border-radius: 1rem;
 }
 
 .blogpost__meta {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap:2em
 }
 
@@ -330,19 +339,80 @@ main {
     list-style: none;
 }
 
+/* ===========Bloggers Page=========== */
+.bloggers {
+    height: auto;
+}
 
-/* ===========Blogger Profile=========== */
-.profile-image {
-    width: 15em;
-    height: 15em;
-    max-width: 15em;
+.bloggers h1 {
+    margin-bottom: 1.5em;
+}
+
+.bloggers__list {
+    list-style: none;
+    padding:0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    gap: 2em;
+}
+
+.bloggers__list-item {
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.bloggers__list-item div {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bloggers__image-wrapper {
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0.2em -0.2em 0.5em rgb(24, 23, 23);
 }
 
 .profile-image-thumbnail {
+    width: inherit;
+    height: inherit;
     border-radius: 50%;
-    display: inline-block;
+    transform-origin: center;
+    transition: all 0.5s cubic-bezier(0.25, 0.25, 0.56, 2);
 }
 
+.profile-image-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+
+/* ===========Blogger Detail Page=========== */
+.blogger__profile-image {
+    width: 100%;
+    height: auto;
+    max-width: 20em;
+}
+
+.blogger__blogposts {
+    margin-top: 5em;
+}
+
+/* ===========Blogger Profile=========== */
+.manage-personal-info div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
 /* ===========Bootstrap=========== */
 .form-control {
@@ -352,6 +422,7 @@ main {
 /* ===========Utility Classes=========== */
 
 .blog__btn {
+    font-size: inherit;
     text-decoration: none;
     padding: 0.65em 0.4em;
     color: var(--clr-primary-text-light);
@@ -359,6 +430,7 @@ main {
     border: var(--clr-primary-text-dark) 2px solid;
     border-radius: 10px;
     transition: all 500ms cubic-bezier(0.075, 0.82, 0.165, 1);
+    cursor: pointer;
     
 }
 

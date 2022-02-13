@@ -185,6 +185,15 @@ class BloggerProfileUpdate(LoginRequiredMixin, UpdateView):
         return reverse('blog:blogger-profile', kwargs={'pk': blogauthor.pk})
 
 
+class BloggerProfileDelete(LoginRequiredMixin, DeleteView):
+    """
+    A view to delete a blogger profile
+    """
+    model = BlogAuthor
+    template_name = 'blog/bloggerprofile_delete.html'
+    success_url = reverse_lazy('blog:index')
+
+
 class CommentCreate(LoginRequiredMixin, CreateView):
     """
     A form to create a comment for blogpost

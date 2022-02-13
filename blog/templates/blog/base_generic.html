@@ -36,7 +36,7 @@
                 {% endif %}
                 <li><a href="{% url 'users:logout'%}?next={{request.path}}" class="registration__link link-light">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link link-light">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link">Sign Up</a></li>
+                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link link-light">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link link-light">Sign Up</a></li>
             {% endif %}
         </ul>
         {% endblock %}

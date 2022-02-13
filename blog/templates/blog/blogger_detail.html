@@ -1,14 +1,21 @@
 {% extends "blog/base_generic.html" %}
 
 {% block content %}
-<h1>Blogger: {{ blogger.username }}</h1>
-<img src="{{ blogger.profile_image.url }}" alt="Avatar" class="profile-image">
-<h2>Bio</h2>
-<p>{{ blogger.bio }}</p>
-<h2>Blogs list</h2>
-<ul>
-    {% for blogpost in blogpost_list %}
-    <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
-    {% endfor %}
-</ul>
+
+<section class="blogger__info">
+    <h1>Blogger: {{ blogger.username }}</h1>
+    <img src="{{ blogger.profile_image.url }}" alt="{{ blogger.username }} Avatar" class="blogger__profile-image">
+    <h2>Bio</h2>
+    <p>{{ blogger.bio }}</p>
+</section>
+
+<section class="blogger__blogposts">
+    <h2>Blog Posts</h2>
+    <ul>
+        {% for blogpost in blogpost_list %}
+        <li><a href="{{ blogpost.get_absolute_url }}" class="link-dark">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
+        <hr>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}

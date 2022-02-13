@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFill, Thumbnail, ResizeToFit
 
 
 # Create your models here.
@@ -30,7 +30,7 @@ class BlogPost(models.Model):
     liked_disliked_users = models.JSONField(null=False, default=dict)
     image = models.ImageField(upload_to='blog/images', default='blog/images/blog-default-image.jpg', null=True)
     image_thumbnail = ImageSpecField(source='image',
-                                    processors=[ResizeToFill(500, 300)],
+                                    processors=[ResizeToFit(500, 300)],
                                     format='JPEG',
                                     options={'quality': 60})
 

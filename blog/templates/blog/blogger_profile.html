@@ -2,27 +2,32 @@
 
 {% block content %}
 
-<div>
-    <h1>Your Blogger Profile</h1>
-    <h4>
-        <a href="{% url 'blog:blogger-profile-update'  blogger.pk %}">Edit Personal Info</a>
-    </h4>
-</div>
+<h1>Your Blogger Profile</h1>
 
-<div>
-    <h1>{{ blogger.username }}</h1>
-    <img src="{{ blogger.profile_image.url }}" alt="{{ blogger.username }} Avatar" class="profile-image">
+<section class="blogger__info">
+    <h2>{{ blogger.username }}</h2>
+    <img src="{{ blogger.profile_image.url }}" alt="{{ blogger.username }} Avatar" class="blogger__profile-image">
     <h2>Bio</h2>
     <p>{{ blogger.bio }}</p>
-</div>
+</section>
 
-<div>
+<section class="blogger__blogposts">
     <h2>My Blog Posts</h2>
     <ul>
         {% for blogpost in blogpost_list %}
         <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
+        <hr>
         {% endfor %}
     </ul>
-</div>
+</section>
+
+<section class="manage-personal-info">
+    <h2>Manage Your Personal Info</h2>
+    <div>
+        <a href="{% url 'blog:blogger-profile-update'  blogger.pk %}" class="link-dark">Edit Blogger Profile</a>
+        <a href="{% url 'blog:blogger-profile-delete'  blogger.pk %}" class="link-dark">Delete Blogger Profile</a>
+        <a href="#" class="link-dark">Manage Your Account</a>
+    </div>
+</section>
 
 {% endblock %}
