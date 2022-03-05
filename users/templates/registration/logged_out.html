@@ -1,6 +1,6 @@
 {% extends "blog/base_generic.html" %}
 
 {% block content %}
-  <p>Logged out!</p>
-  <a href="{% url 'users:login'%}">Click here to login again.</a>
+  <h2>Logged out!</h2>
+  <a href="{% url 'users:login'%}" class="link-dark">Click here to login again.</a>
 {% endblock %}

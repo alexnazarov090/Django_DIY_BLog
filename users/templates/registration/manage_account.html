@@ -1,0 +1,13 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+
+<section class="manage-account">
+    <h2>Manage Your Account</h2>
+    <div>
+        <a href="{% url 'users:user-update'  user.pk %}" class="link-dark">Edit User Info</a>
+        <a href="{% url 'users:user-delete'  user.pk %}" class="link-dark">Delete Account</a>
+    </div>
+</section>
+
+{% endblock %}

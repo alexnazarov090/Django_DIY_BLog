@@ -150,7 +150,7 @@ CSRF_COOKIE_HTTPONLY = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
+SECURE_SSL_REDIRECT = False
 
 LOGGING = {
     'version': 1,

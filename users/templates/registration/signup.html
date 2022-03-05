@@ -5,8 +5,8 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 {% endblock %}
 {% block content %}
-<h2>Sign up</h2>
 <div class="form-wrapper">
+    <h2>Sign up</h2>
     <form method="post"
         data-validate-username-url="{% url 'users:validate_username' %}"
         data-validate-email-url="{% url 'users:validate_email' %}">

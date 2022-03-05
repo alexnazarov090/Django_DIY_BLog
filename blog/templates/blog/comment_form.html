@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="comment__blogname">
-    <h4>Post you comment for: </h4>
-    <p><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a></p>
-</div>
+
 <div class="form-wrapper">
+    <div class="comment__blogname">
+        <h2>Post you comment for: </h2>
+        <p><a href="{{ blogpost.get_absolute_url }}" class="link-dark">{{ blogpost.title }}</a></p>
+    </div>
     <form action="" method="post">
         {% csrf_token %}
         {{ form|crispy }}

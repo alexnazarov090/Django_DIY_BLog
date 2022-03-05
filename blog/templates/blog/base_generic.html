@@ -28,13 +28,14 @@
             {% if user.is_authenticated %}
                 {% if user.is_blogger %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="fas fa-star fa-sm"></i></span></li>
-                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}"" class="nav__link link-light">Your Blogger Profile</a></li>
+                    <li><a href="{% url 'blog:blogger-profile' user.blogauthor.pk %}" class="nav__link link-light">Your Blogger Profile</a></li>
                     <li><a href="{% url 'blog:blogpost-create' %}" class="nav__link link-light">Create a blogpost</a></li>
                 {% else %}
                 <li>User: {{ user.get_username }}<span class="status-icon"><i class="far fa-star fa-sm"></i></span></li>
                     <li><a href="{% url 'blog:blogger-profile-create' %}" class="nav__link link-light">Become a blogger</a></li>
+                    <li><a href="{% url 'users:manage_account' %}" class="nav__link link-light">Manage Your Account</a></li>
                 {% endif %}
-                <li><a href="{% url 'users:logout'%}?next={{request.path}}" class="registration__link link-light">Logout</a></li>
+                <li><a href="{% url 'users:logout'%}" class="registration__link link-light">Logout</a></li>
             {% else %}
                 <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link link-light">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link link-light">Sign Up</a></li>
             {% endif %}

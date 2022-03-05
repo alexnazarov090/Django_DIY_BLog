@@ -6,27 +6,28 @@
 {% endblock %}
 {% block content %}
 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <h2>Please login to continue</h2>
-    {% endif %}
-  {% endif %}
 
   <div class="form-wrapper">
+    
+    {% if next %}
+      {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+      {% else %}
+        <h2>Please login to continue</h2>
+      {% endif %}
+      {% if form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    {% endif %}
     <form method="post" action="{% url 'users:login' %}">
       {% csrf_token %}
       {{ form|crispy }}
       <button type="submit" class="blog__btn">Log in</button>
       <input type="hidden" name="next" value="{{ next }}" />
     </form>
-  <p><a href="{% url 'users:password_reset' %}">Lost password?</a></p>
+  <p><a href="{% url 'users:password_reset' %}" class="link-dark">Lost password?</a></p>
   </div>
 
 

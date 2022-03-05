@@ -25,4 +25,7 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('get/ajax/validate-username', views.validate_username, name='validate_username'),
     path('get/ajax/validate-email', views.validate_email, name='validate_email'),
+    path('<int:pk>/update-user', views.UserUpdate.as_view(), name='user-update'),
+    path('<int:pk>/delete-user', views.UserDelete.as_view(), name='user-delete'),
+    path('manage_account/', views.manage_account, name='manage_account'),
 ]

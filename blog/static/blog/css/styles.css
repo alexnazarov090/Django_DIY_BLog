@@ -407,7 +407,11 @@ main {
 }
 
 /* ===========Blogger Profile=========== */
-.manage-personal-info div {
+.manage-personal-info, .manage-account {
+    margin-bottom: 1.5em;
+}
+
+.manage-personal-info div, .manage-account div {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -425,7 +429,7 @@ main {
     font-size: inherit;
     text-decoration: none;
     padding: 0.65em 0.4em;
-    color: var(--clr-primary-text-light);
+    color: var(--clr-primary-text-light) !important;
     background-color: var(--clr-primary-text-dark);
     border: var(--clr-primary-text-dark) 2px solid;
     border-radius: 10px;

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import UpdateView, DeleteView
 
 from blog.models import User
 from .forms import SignUpForm
@@ -90,3 +92,32 @@ def validate_email(request):
             data['valid'], data['error_message'] = False, 'A user with this email already exists!'
 
         return JsonResponse(data, status=200)
+
+
+def manage_account(request):
+    return render(request, 'registration/manage_account.html')
+
+
+class UserUpdate(LoginRequiredMixin, UpdateView):
+    """
+    A form to update a blogger profile
+    """
+    model = User
+    fields = ['username', 'email', 'first_name', 'last_name']
+    template_name = 'registration/update_user.html'
+
+    def get_success_url(self):
+        user = User.objects.get(pk=self.kwargs['pk'])
+        if user.is_blogger:
+            return reverse('blog:blogger-profile', kwargs={'pk': user.blogauthor.pk})
+        else:
+            return reverse('users:manage_account')
+
+
+class UserDelete(LoginRequiredMixin, DeleteView):
+    """
+    A view to delete a user account
+    """
+    model = User
+    template_name = 'registration/delete_user.html'
+    success_url = reverse_lazy('blog:index')

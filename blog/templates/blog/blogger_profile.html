@@ -15,7 +15,7 @@
     <h2>My Blog Posts</h2>
     <ul>
         {% for blogpost in blogpost_list %}
-        <li><a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
+        <li><a href="{{ blogpost.get_absolute_url }}" class="link-dark">{{ blogpost.title }}</a>({{ blogpost.post_date }})</li>
         <hr>
         {% endfor %}
     </ul>
@@ -26,7 +26,14 @@
     <div>
         <a href="{% url 'blog:blogger-profile-update'  blogger.pk %}" class="link-dark">Edit Blogger Profile</a>
         <a href="{% url 'blog:blogger-profile-delete'  blogger.pk %}" class="link-dark">Delete Blogger Profile</a>
-        <a href="#" class="link-dark">Manage Your Account</a>
+    </div>
+</section>
+
+<section class="manage-account">
+    <h2>Manage Your Account</h2>
+    <div>
+        <a href="{% url 'users:user-update'  blogger.username.pk %}" class="link-dark">Edit User Info</a>
+        <a href="{% url 'users:user-delete'  blogger.username.pk %}" class="link-dark">Delete Account</a>
     </div>
 </section>
 
