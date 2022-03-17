@@ -77,14 +77,87 @@ a {
     display: inline-block;
 }
 
+/* ===========Hamburger=========== */
+.hamburger-menu-btn {
+    position: fixed;
+    top: 1em;
+    right: 1.5em;
+    width: 2.5em;
+    height: 2.5em;
+    border: 3px solid var(--clr-primary-text-dark);
+    border-radius: 5px;
+    padding: 0 0.25em;
+    background-color: var(--clr-link-dark-hover);
+    z-index: 999;
+    cursor: pointer;
+}
+
+.hamburger-menu-btn::before,
+.hamburger-menu-btn span, 
+.hamburger-menu-btn::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 1.75em;
+    height: 0.25em;
+    border-radius: 2px;
+    background-color: var(--clr-primary-text-light);
+    z-index: inherit;
+    transform-origin: center;
+    transition: 400ms ease-in-out;
+}
+
+.hamburger-menu-btn::before {
+    content: "";
+    top: 10%;
+}
+
+.hamburger-menu-btn span {
+    top: 45%;
+}
+
+.hamburger-menu-btn::after {
+    content: "";
+    top: 80%;
+}
+
+.sidebar-visible::before {
+    transform: rotate(45deg);
+    top: 45%
+}
+
+.sidebar-visible span {
+    width:0;
+}
+
+.sidebar-visible::after {
+    transform: rotate(-45deg);
+    top: 45%
+}
+
 /* ===========Sidebar=========== */
 .sidebar {
+    top:0;
+    left:0;
+    color: var(--clr-primary-text-light);
+    background-color: var(--clr-primary-text-dark);
     position: fixed;
     transform: scale(0, 1);
+    width: 100%;
     height: 100vh;
     transform-origin: left;
     transition: 400ms ease-in-out;
     overflow: auto;
+    clip-path: initial;
+    z-index: 100;
+}
+
+.sidebar-visible {
+    transform: scale(1, 1);
+}
+
+.sidebar-visible a {
+    opacity: 1;
 }
 
 .nav__list {
@@ -97,15 +170,6 @@ a {
 }
 
 .nav__link {
-    display: block;
-    text-decoration: none;
-    color: var(--clr-link-light);
-    opacity: 0;
-    transition: opacity 150ms ease-in-out;
-}
-
-.registration__link {
-    display: inline;
     text-decoration: none;
     color: var(--clr-link-light);
     opacity: 0;
@@ -456,19 +520,22 @@ main {
     margin: 0 auto;
 }
 
+.noscroll {
+    overflow: hidden;
+}
+
 /* ===========Media Queries=========== */
 @media only screen and (min-width: 1200px){
+
+    /* ===========Hamburger=========== */
+    .hamburger-menu-btn {
+        display: none;
+    }
 
     /* ===========Sidebar=========== */
     .sidebar {
         transform: scale(1, 1);
-        position: fixed;
-        top:0;
-        left:0;
-        height:100vh;
         width: var(--sidebar-width);
-        color: var(--clr-primary-text-light);
-        background-color: var(--clr-primary-text-dark);
         overflow: hidden;
         clip-path: polygon(0 0, 100% 0, 50% 100%, 0 100%);
     }

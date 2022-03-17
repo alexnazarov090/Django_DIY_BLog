@@ -17,6 +17,9 @@
     </script>
 </head>
 <body>
+    <div class="hamburger-menu-btn">
+        <span></span>
+    </div>
     <nav id="sidebar" class="sidebar">
         {% block sidebar %}
         <ul class="nav__list">
@@ -35,9 +38,9 @@
                     <li><a href="{% url 'blog:blogger-profile-create' %}" class="nav__link link-light">Become a blogger</a></li>
                     <li><a href="{% url 'users:manage_account' %}" class="nav__link link-light">Manage Your Account</a></li>
                 {% endif %}
-                <li><a href="{% url 'users:logout'%}" class="registration__link link-light">Logout</a></li>
+                <li><a href="{% url 'users:logout'%}" class="nav__link link-light">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="registration__link link-light">Log In</a> / <a href="{% url 'users:signup' %}?next={{request.path}}" class="registration__link link-light">Sign Up</a></li>
+                <li><a href="{% url 'users:login'%}?next={{request.path}}" class="nav__link link-light">Log In /</a> <a href="{% url 'users:signup' %}?next={{request.path}}" class="nav__link link-light">Sign Up</a></li>
             {% endif %}
         </ul>
         {% endblock %}
@@ -50,6 +53,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'blog/js/scripts.js' %}"></script>
     {% block javascript %}
     {% endblock javascript %}
 </body>

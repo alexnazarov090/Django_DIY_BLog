@@ -1,6 +1,6 @@
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-from blog.models import BlogAuthor, User
+from blog.models import BlogAuthor
 
 
 @receiver(post_delete, sender=BlogAuthor)
