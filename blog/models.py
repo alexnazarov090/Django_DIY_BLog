@@ -34,6 +34,26 @@ class BlogPost(models.Model):
                                     format='JPEG',
                                     options={'quality': 60})
 
+    BLOGPOST_CATEGORIES = (
+        ('Music', 'Music'),
+        ('Fashion', 'Fashion'),
+        ('Car', 'Car'),
+        ('Travel', 'Travel'),
+        ('Technology', 'Technology'),
+        ('Movies', 'Movies'),
+        ('History', 'History'),
+        ('Lifestyle', 'Lifestyle'),
+        ('Overall', 'Overall'),
+    )
+
+    category = models.CharField(
+        max_length=20,
+        choices=BLOGPOST_CATEGORIES,
+        blank=True,
+        default='OV',
+        help_text='Blogpost category',
+    )
+
 
     # Metadata
     class Meta:

@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from datetime import date
 
-from .services import get_total_num, get_top_contributors
+from .services import get_total_num, get_top_contributors, get_most_pop_cats
 from .models import BlogPost, BlogAuthor, Comment
 
 import logging
@@ -23,12 +23,14 @@ def index(request):
     """
     total_num = get_total_num()
     top_contributors = get_top_contributors()
+    most_pop_cats = get_most_pop_cats()
 
     context = {
                 'num_of_blog_posts': total_num.blog_posts,
                 'num_of_bloggers': total_num.bloggers,
                 'num_of_comments': total_num.comments,
-                'top_contributors': top_contributors
+                'top_contributors': top_contributors,
+                'most_pop_cats': most_pop_cats,
     }
 
     return render(request, 'blog/index.html', context=context)
@@ -257,7 +259,7 @@ class BlogPostCreate(LoginRequiredMixin, CreateView):
     A form to create a blogpost
     """
     model = BlogPost
-    fields = ['title', 'image', 'description']
+    fields = ['title', 'image', 'description', 'category']
     success_url = reverse_lazy('blog:blogs')
 
     def form_valid(self, form):
@@ -277,7 +279,7 @@ class BlogPostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """
     permission_required = 'blog.change_blogpost'
     model = BlogPost
-    fields = ['title', 'image', 'description']
+    fields = ['title', 'image', 'description', 'category']
     success_url = reverse_lazy('blog:blogs')
 
 

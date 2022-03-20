@@ -6,6 +6,7 @@
     <h1>{{ blogpost.title }}</h1>
     <p><strong>Post date:</strong> {{ blogpost.post_date|date:"d M Y" }}</p>
     <p><strong>Author:</strong> {{ blogpost.author }}</p>
+    <p><strong>Category:</strong> {{ blogpost.category }}</p>
     <img src="{{blogpost.image.url}}" alt="{{blogpost.title}} Image">
     <p>{{ blogpost.description }}</p>
 </section>

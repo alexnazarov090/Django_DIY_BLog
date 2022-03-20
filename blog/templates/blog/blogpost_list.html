@@ -11,6 +11,7 @@
             </div>
             <div class="blogpost__meta">
                 <span>{{ blogpost.post_date|date:"d M Y" }}</span>
+                <span>Category: {{ blogpost.category }}</span>
                 <span>Posted by <a href="{{ blogpost.author.get_absolute_url }}" class="link-dark">{{ blogpost.author }}</a></span>
                 <span><i class="fas fa-heart"></i> Likes {{ blogpost.likes }}</span>
                 <span><i class="fas fa-comments"></i> Comments {{ blogpost.comment_set.all.count }}</span>

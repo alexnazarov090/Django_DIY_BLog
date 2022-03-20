@@ -8,7 +8,8 @@
 
 <form action="" method="POST">
   {% csrf_token %}
-  <input type="submit" value="Yes, delete." class="blog__btn">
+  <button type="submit" class="blog__btn">Yes, delete</button>
+  <button class="blog__btn" onclick="javascript:history.back();">Cancel</button>
 </form>
 
 {% endblock %}

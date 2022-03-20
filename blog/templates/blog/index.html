@@ -46,4 +46,15 @@
         {% endfor %}
     </ul>
 </section>
+
+<section class="most_popular_cats">
+    <h2>Most popular categories</h2>
+    <ul class="most_popular_cats__list">
+        {% for category in most_pop_cats %}
+        <li class="most_popular_cats__list-item">
+            <p>{{ category }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}

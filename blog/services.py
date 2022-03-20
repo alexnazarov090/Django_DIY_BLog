@@ -32,3 +32,15 @@ def get_top_contributors():
     top_contributors = {contributor: contributor.num_blog_posts for contributor in top_contributors_list}
 
     return top_contributors
+
+def get_most_pop_cats():
+    """
+    Get a list of most popular categories
+    """
+    most_pop_cats = {}
+    blogposts = BlogPost.objects.all()
+
+    for blogpost in blogposts:
+        most_pop_cats[blogpost.category] = most_pop_cats.get(blogpost.category, 0) + 1
+    
+    return sorted(most_pop_cats, key=most_pop_cats.get, reverse=True)
