@@ -1,0 +1,22 @@
+{% extends "blog/base_generic.html" %}
+
+{% block content %}
+<section class="blogposts">
+    <h1>Related blog posts</h1>
+    {% for blogpost in blogposts %}
+        <article class="blogpost">
+            <div class="blogpost__title"><a href="{{ blogpost.get_absolute_url }}" class="link-dark">{{ blogpost.title }}</a></div>
+            <div>
+                <img src="{{ blogpost.image_thumbnail.url }}" alt="{{ blogpost.title }} Image" class="blogpost__image">
+            </div>
+            <div class="blogpost__meta">
+                <span>{{ blogpost.post_date|date:"d M Y" }}</span>
+                <span>Category: {{ blogpost.category }}</span>
+                <span>Posted by <a href="{{ blogpost.author.get_absolute_url }}" class="link-dark">{{ blogpost.author }}</a></span>
+                <span><i class="fas fa-heart"></i> Likes {{ blogpost.likes }}</span>
+                <span><i class="fas fa-comments"></i> Comments {{ blogpost.comment_set.all.count }}</span>
+            </div>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

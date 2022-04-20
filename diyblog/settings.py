@@ -21,12 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(mrj9-6@iwob-cys($@@e#)%-_&f$$@0hu3bg3)vld%zxoe1e-')
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
+
+SECRET_KEY = env("SECRET_KEY", default='(mrj9-6@iwob-cys($@@e#)%-_&f$$@0hu3bg3)vld%zxoe1e-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-DEFAULT_FROM_EMAIL = 'webmaster@example.com'
-ALLOWED_HOSTS = []
+DEBUG = int(env("DEBUG", default=0))
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'imagekit',
     'crispy_forms',
     'crispy_bootstrap5',
+    'anymail',
     # My Apps
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
@@ -85,6 +90,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        "USER": env("SQL_USER", default="user"),
+        "PASSWORD": env("SQL_PASSWORD", default="password"),
+        "HOST": env("SQL_HOST", default="localhost"),
+        "PORT": env("SQL_PORT", default="5432"),
     }
 }
 
@@ -147,10 +156,18 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
 CSRF_COOKIE_HTTPONLY = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 SECURE_SSL_REDIRECT = False
+
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+ANYMAIL = {
+    "SENDINBLUE_API_KEY": env("SENDINBLUE_API_KEY", default="api_key"),
+    "SENDINBLUE_API_URL": "https://api.sendinblue.com/v3/",
+}
+
+DEFAULT_FROM_EMAIL = "homecorp@gmail.com"
+SERVER_EMAIL = env("SERVER_EMAIL", default="homecorp@gmail.com"),
 
 LOGGING = {
     'version': 1,

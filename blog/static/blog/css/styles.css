@@ -370,6 +370,31 @@ main {
     height: 2em;
 }
 
+.most_freq_words {
+    height: auto;
+}
+
+.most_freq_words__list {
+    list-style: none;
+    padding:0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.most_freq_words__list-item {
+    margin-left: 0.5em;
+    margin-bottom: 0.15em;
+}
+
+.most_freq_words__list-item p {
+    margin: 0;
+}
+
 /* ===========Blogposts Page=========== */
 
 .blogposts {

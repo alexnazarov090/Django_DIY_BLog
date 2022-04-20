@@ -6,9 +6,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.text import slugify
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.cache import cache
 from datetime import date
 
-from .services import get_total_num, get_top_contributors, get_most_pop_cats
+from .services import get_total_num, get_top_contributors, get_most_pop_cats, get_most_frequent_words
 from .models import BlogPost, BlogAuthor, Comment
 
 import logging
@@ -24,6 +25,7 @@ def index(request):
     total_num = get_total_num()
     top_contributors = get_top_contributors()
     most_pop_cats = get_most_pop_cats()
+    most_frequent_words = get_most_frequent_words()
 
     context = {
                 'num_of_blog_posts': total_num.blog_posts,
@@ -31,10 +33,15 @@ def index(request):
                 'num_of_comments': total_num.comments,
                 'top_contributors': top_contributors,
                 'most_pop_cats': most_pop_cats,
+                'most_frequent_words': most_frequent_words,
     }
 
     return render(request, 'blog/index.html', context=context)
 
+def get_related_blogposts(request, word):
+    blogposts = cache.get(word)
+    context = {'blogposts': blogposts}
+    return render(request, 'blog/related_blogposts.html', context=context)
 
 def update_like_dislike_count(request, slug):
     """

@@ -31,3 +31,22 @@ function removeSideBar() {
         body.classList.remove("noscroll");
     } 
 }
+
+window.addEventListener('load', resizeMostFreqWords);
+
+function resizeMostFreqWords() {
+    const mostFreqWords = document.querySelectorAll(".most_freq_words__list-item p");
+
+    mostFreqWords.forEach((word, index) => {
+        if (index <= 10) {
+            word.style.fontSize = "4rem";
+            word.style.fontWeight = "600";
+        } else if (index > 10 && index <= 20) {
+            word.style.fontSize = "3rem";
+            word.style.fontWeight = "400";
+        } else if (index > 20) {
+            word.style.fontSize = "2rem";
+            word.style.fontWeight = "200";
+        }
+    });
+}
