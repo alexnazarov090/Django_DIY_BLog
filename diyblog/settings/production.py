@@ -31,7 +31,7 @@ INSTALLED_APPS += [
 ]
 
 MIDDLEWARE += [
-    'WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     ]
 
 
