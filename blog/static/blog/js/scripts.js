@@ -35,7 +35,7 @@ function removeSideBar() {
 window.addEventListener('load', resizeMostFreqWords);
 
 function resizeMostFreqWords() {
-    const mostFreqWords = document.querySelectorAll(".most_freq_words__list-item p");
+    const mostFreqWords = document.querySelectorAll(".most_freq_words__list-item a");
 
     mostFreqWords.forEach((word, index) => {
         if (index <= 10) {

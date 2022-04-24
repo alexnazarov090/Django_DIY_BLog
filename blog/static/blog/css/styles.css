@@ -391,7 +391,7 @@ main {
     margin-bottom: 0.15em;
 }
 
-.most_freq_words__list-item p {
+.most_freq_words__list-item a {
     margin: 0;
 }
 
