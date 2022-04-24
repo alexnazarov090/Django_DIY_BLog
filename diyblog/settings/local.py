@@ -45,6 +45,12 @@ DATABASES = {
     }
 }
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
+
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 CSRF_USE_SESSIONS = True
