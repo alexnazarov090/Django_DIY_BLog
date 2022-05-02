@@ -17,6 +17,14 @@ SECRET_KEY = env("SECRET_KEY", default='(mrj9-6@iwob-cys($@@e#)%-_&f$$@0hu3bg3)v
 DEBUG = int(env("DEBUG", default=0))
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
 
+# AWS S3 SETTINGS
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_URL = env('AWS_URL')
+AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 # Application definition
 
@@ -60,6 +68,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = AWS_URL + '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
