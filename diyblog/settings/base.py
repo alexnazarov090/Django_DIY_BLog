@@ -96,9 +96,6 @@ AUTH_USER_MODEL = 'blog.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR.joinpath('media')
-
 LOGIN_URL = '/users/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
