@@ -124,6 +124,13 @@ class BlogPostDetailView(generic.DetailView):
         context = super(BlogPostDetailView, self).get_context_data(**kwargs)
         blogpost = get_object_or_404(BlogPost, slug = self.kwargs['slug'])
 
+        if self.request.user.is_authenticated:
+            if self.request.user not in blogpost.viewed_users.all():
+                blogpost.viewed_users.add(self.request.user)
+        blogpost.views += 1
+        blogpost.save()
+        context['views'] = blogpost.views
+
         if len(blogpost.liked_disliked_users) == 0:
             blogpost.liked_disliked_users = dict(liked_users=[], disliked_users=[])
         context['is_liked'] = str(self.request.user.id) in blogpost.liked_disliked_users['liked_users']

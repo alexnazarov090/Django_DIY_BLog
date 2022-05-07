@@ -28,6 +28,8 @@ class BlogPost(models.Model):
     likes = models.CharField(max_length=10, default='0')
     dislikes = models.CharField(max_length=10, default='0')
     liked_disliked_users = models.JSONField(null=False, default=dict)
+    viewed_users = models.ManyToManyField(User, blank=True)
+    views = models.IntegerField(default=0)
     image = models.ImageField(upload_to='blog/images', default='blog/images/blog-default-image.jpg', null=True)
     image_thumbnail = ImageSpecField(source='image',
                                     processors=[ResizeToFit(500, 300)],
@@ -63,6 +65,10 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(str(self.post_date) + '-' + self.title, allow_unicode=True)
         super().save(*args, **kwargs)
+
+    def display_viewed_users(self):
+        return ', '.join(user.username for user in self.viewed_users.all())
+    display_viewed_users.short_description = 'Viewed users'
 
     def get_absolute_url(self):
         """Returns the url to access a particular instance of Blog post."""

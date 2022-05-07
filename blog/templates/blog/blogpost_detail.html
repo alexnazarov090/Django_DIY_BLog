@@ -5,8 +5,12 @@
 <section class="blogpost__info">
     <h1>{{ blogpost.title }}</h1>
     <p><strong>Post date:</strong> {{ blogpost.post_date|date:"d M Y" }}</p>
-    <p><strong>Author:</strong> {{ blogpost.author }}</p>
+    <p><strong>Author:</strong> <a href="{{ blogpost.author.get_absolute_url }}" class="link-dark">{{ blogpost.author }}</a></p>
     <p><strong>Category:</strong> {{ blogpost.category }}</p>
+    <p>
+        <i class="fa fa-eye"></i>
+        Viewed {{ blogpost.views }} time{{ blogpost.views|pluralize }}
+    </p>
     <img src="{{blogpost.image.url}}" alt="{{blogpost.title}} Image">
     <p>{{ blogpost.description }}</p>
 </section>
@@ -39,8 +43,8 @@
         {% for comment in blogpost.comment_set.all %}
         <li>{{ comment.commenter }} ({{ comment.post_date|date:"d M Y" }}) - {{ comment.description }}
             {% if perms.blog.change_comment %} 
-                <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}" class="link-dark">Amend comment</a> 
-                <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}" class="link-dark">Delete comment</a>
+                <a href="{% url 'blog:comment-update'  blogpost.slug comment.pk %}" class="blog__btn">Amend comment</a> 
+                <a href="{% url 'blog:comment-delete' blogpost.slug comment.pk %}" class="blog__btn">Delete comment</a>
             {% endif %}
         </li>
             
