@@ -1,9 +1,12 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.fields import SlugField
 from django.db.models.fields.related import OneToOneField
 from django.urls import reverse
 from django.utils.text import slugify
+from django.contrib.sessions.models import Session
+
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, Thumbnail, ResizeToFit
@@ -30,6 +33,7 @@ class BlogPost(models.Model):
     liked_disliked_users = models.JSONField(null=False, default=dict)
     viewed_users = models.ManyToManyField(User, blank=True)
     views = models.IntegerField(default=0)
+    anonymous_users = models.JSONField(null=False, default=list)
     image = models.ImageField(upload_to='blog/images', default='blog/images/blog-default-image.jpg', null=True)
     image_thumbnail = ImageSpecField(source='image',
                                     processors=[ResizeToFit(500, 300)],

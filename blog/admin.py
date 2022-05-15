@@ -28,6 +28,7 @@ class BlogPostAdmin(admin.ModelAdmin):
                     'category',
                     'views',
                     'display_viewed_users',
+                    'anonymous_users',
                     'likes',
                     'dislikes',
                     'liked_disliked_users')

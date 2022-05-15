@@ -9,7 +9,7 @@ from django.core import serializers
 from django.core.cache import cache
 from datetime import date
 
-from .services import get_total_num, get_top_contributors, get_most_pop_cats, get_most_frequent_words
+from .utils import get_total_num, get_top_contributors, get_most_pop_cats, get_most_frequent_words
 from .models import BlogPost, BlogAuthor, Comment
 
 import logging
@@ -127,8 +127,15 @@ class BlogPostDetailView(generic.DetailView):
         if self.request.user.is_authenticated:
             if self.request.user not in blogpost.viewed_users.all():
                 blogpost.viewed_users.add(self.request.user)
-        blogpost.views += 1
-        blogpost.save()
+                blogpost.views += 1
+                blogpost.save()
+        else:
+            session_id= self.request.session.session_key
+            if session_id and session_id not in blogpost.anonymous_users:
+                blogpost.anonymous_users.append(session_id)
+                blogpost.views += 1
+                blogpost.save()
+
         context['views'] = blogpost.views
 
         if len(blogpost.liked_disliked_users) == 0:
