@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, BlogPost, BlogAuthor, Comment
+from .models import User, BlogPost, BlogAuthor, Comment, Tag
 
 # Register your models here.
 class CustomUserAdmin(UserAdmin):
@@ -55,3 +55,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'post_date', 'commenter', 'description', 'blog')
     fields = ['commenter', 'description', 'blog']
     list_filter = ('commenter', 'blog')
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'word', 'display_blogposts')

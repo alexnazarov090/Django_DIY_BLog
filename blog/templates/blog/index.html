@@ -61,9 +61,9 @@
 <section class="most_freq_words">
     <h2>Most frequently used words</h2>
     <ul class="most_freq_words__list">
-        {% for word in most_frequent_words %}
+        {% for tag in tags %}
         <li class="most_freq_words__list-item">
-            <a href="{% url 'blog:related-blogposts' word %}" class="link-dark">{{ word }}</a>
+            <a href="{% url 'blog:related-blogposts' tag.pk %}" class="link-dark">{{ tag.word }}</a>
         </li>
         {% endfor %}
     </ul>

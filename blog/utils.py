@@ -4,14 +4,14 @@ import nltk
 import os
 from django.db.models import Count
 from django.core.cache import cache
-from .models import BlogAuthor, BlogPost, Comment
+from .models import BlogAuthor, BlogPost, Comment, Tag
 
 import logging
 
 logger = logging.getLogger(__name__)
 
 CURRENT_WORKING_DIR = os.getcwd()
-logger.info(CURRENT_WORKING_DIR)
+
 
 def get_total_num():
     """
@@ -55,15 +55,26 @@ def get_most_pop_cats():
     
     return sorted(most_pop_cats, key=most_pop_cats.get, reverse=True)
 
-def get_most_frequent_words():
+def get_tags():
     """
     Get a list of most frequently used words
     """
+    tags = Tag.objects.all()
+
+    return tags
+
+def update_tags():
+    """
+    Update a list of most frequently used words
+    """
     frequent_words = {}
-    word_urls = {}
+    blogpost_dict = {}
+
     download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
+
     nltk.download('punkt', download_dir=download_dir)
     nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
+
     regex = r'\w{2,}'
     blogposts = BlogPost.objects.all()
 
@@ -74,12 +85,14 @@ def get_most_frequent_words():
         for word, tag in tagged:
             if tag.startswith('N') and re.search(regex, word):
                 frequent_words[word] = frequent_words.get(word, 0) + 1
-                word_urls[word] = word_urls.get(word, set())
-                word_urls[word].add(blogpost)
+                blogpost_dict[word] = blogpost_dict.get(word, set())
+                blogpost_dict[word].add(blogpost)
     
     frequent_words_list = sorted(frequent_words, key=frequent_words.get, reverse=True)[:30]
 
     for word in frequent_words_list:
-        cache.set(word, word_urls[word])
+        tag = Tag.objects.create(word=word)
+        for bp in blogpost_dict[word]: 
+            tag.blogposts.add(bp)
         
-    return frequent_words_list
+        tag.save()

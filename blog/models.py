@@ -123,3 +123,19 @@ class Comment(models.Model):
         if len(self.description) >= 75:
             return self.description[0:75]
         return self.description
+
+
+class Tag(models.Model):
+    """A class defining a tag model"""
+
+    # Fields
+    word = models.CharField(max_length=20, null=True)
+    blogposts = models.ManyToManyField(BlogPost, blank=True)
+
+    def display_blogposts(self):
+        return ', '.join(str(blogpost) for blogpost in self.blogposts.all())
+    display_blogposts.short_description = 'Related blogpsots'
+
+    def __str__(self):
+        """String for representing the Tag object (in Admin site etc.)."""
+        return str(self.word)
