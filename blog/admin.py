@@ -58,4 +58,5 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'word', 'display_blogposts')
+    list_display = ('__str__', 'word', 'quantity', 'display_blogposts')
+    list_filter = ('quantity',)

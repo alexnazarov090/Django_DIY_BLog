@@ -98,7 +98,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': 'general.log',
-            'formatter': 'simple'
+            'formatter': 'verbose'
         },
     },
     'root': {

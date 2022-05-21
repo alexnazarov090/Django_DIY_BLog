@@ -2,11 +2,13 @@ from collections import namedtuple
 import re
 import nltk
 import os
+import logging
+
 from django.db.models import Count
 from django.core.cache import cache
+
 from .models import BlogAuthor, BlogPost, Comment, Tag
 
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +61,7 @@ def get_tags():
     """
     Get a list of most frequently used words
     """
-    tags = Tag.objects.all()
+    tags = Tag.objects.all().order_by('-quantity', 'word')[:30]
 
     return tags
 
@@ -69,6 +71,7 @@ def update_tags():
     """
     frequent_words = {}
     blogpost_dict = {}
+    blogposts = BlogPost.objects.all()
 
     download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
 
@@ -76,23 +79,47 @@ def update_tags():
     nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
 
     regex = r'\w{2,}'
-    blogposts = BlogPost.objects.all()
 
     for blogpost in blogposts:
         bp_desc = blogpost.description
         tokens = nltk.word_tokenize(bp_desc)
         tagged = nltk.pos_tag(tokens)
-        for word, tag in tagged:
-            if tag.startswith('N') and re.search(regex, word):
+        for word, tg in tagged:
+            if tg.startswith('N') and re.search(regex, word):
                 frequent_words[word] = frequent_words.get(word, 0) + 1
                 blogpost_dict[word] = blogpost_dict.get(word, set())
                 blogpost_dict[word].add(blogpost)
-    
+
     frequent_words_list = sorted(frequent_words, key=frequent_words.get, reverse=True)[:30]
 
     for word in frequent_words_list:
-        tag = Tag.objects.create(word=word)
-        for bp in blogpost_dict[word]: 
-            tag.blogposts.add(bp)
-        
+        tag, created = Tag.objects.get_or_create(word=word)
+
+        for bp in blogpost_dict[word]:
+            if not bp in tag.blogposts.all():
+                tag.blogposts.add(bp)
+        tag.quantity = frequent_words[word]
         tag.save()
+
+def delete_tags(blogpost):
+    """
+    Delete tags if necessary
+    """
+    download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
+
+    nltk.download('punkt', download_dir=download_dir)
+    nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
+
+    regex = r'\w{2,}'
+
+    bp_desc = blogpost.description
+    tokens = nltk.word_tokenize(bp_desc)
+    tagged = nltk.pos_tag(tokens)
+    for word, tg in tagged:
+        if tg.startswith('N') and re.search(regex, word):
+            if Tag.objects.filter(word__exact=word).exists():
+                tag = Tag.objects.get(word__exact=word)
+                tag.quantity -= 1
+                tag.save()
+                if tag.quantity == 0:
+                    tag.delete()

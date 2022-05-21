@@ -129,12 +129,13 @@ class Tag(models.Model):
     """A class defining a tag model"""
 
     # Fields
-    word = models.CharField(max_length=20, null=True)
+    word = models.CharField(max_length=20, unique=True, default="")
     blogposts = models.ManyToManyField(BlogPost, blank=True)
+    quantity = models.IntegerField(default=0)
 
     def display_blogposts(self):
         return ', '.join(str(blogpost) for blogpost in self.blogposts.all())
-    display_blogposts.short_description = 'Related blogpsots'
+    display_blogposts.short_description = 'Related blogposts'
 
     def __str__(self):
         """String for representing the Tag object (in Admin site etc.)."""
