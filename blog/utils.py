@@ -75,8 +75,8 @@ def update_tags():
 
     download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
 
-    nltk.download('punkt', download_dir=download_dir)
-    nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
+    # nltk.download('punkt', download_dir=download_dir)
+    # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
 
     regex = r'\w{2,}'
 
@@ -107,8 +107,8 @@ def delete_tags(blogpost):
     """
     download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
 
-    nltk.download('punkt', download_dir=download_dir)
-    nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
+    # nltk.download('punkt', download_dir=download_dir)
+    # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
 
     regex = r'\w{2,}'
 
