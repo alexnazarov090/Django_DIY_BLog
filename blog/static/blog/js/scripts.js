@@ -32,9 +32,10 @@ function removeSideBar() {
     } 
 }
 
-window.addEventListener('load', resizeMostFreqWords);
+// Tags
+window.addEventListener('load', resizeTags);
 
-function resizeMostFreqWords() {
+function resizeTags() {
     const mostFreqWords = document.querySelectorAll(".most_freq_words__list-item a");
 
     mostFreqWords.forEach((word, index) => {

@@ -21,5 +21,6 @@ urlpatterns = [
     path('blog/<slug:slug>/comment/<int:pk>/update', views.CommentUpdate.as_view(), name='comment-update'),
     path('blog/<slug:slug>/comment/<int:pk>/delete', views.CommentDelete.as_view(), name='comment-delete'),
     path('blog/<slug:slug>/ajax/update-rating', views.update_like_dislike_count, name='update-rating'),
-    path('related-blogposts/<int:pk>', views.get_related_blogposts, name='related-blogposts'),
+    path('tags/<str:word>', views.get_related_blogposts, name='tags'),
+    path('search/', views.search, name='search'),
 ]

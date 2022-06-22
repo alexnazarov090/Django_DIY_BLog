@@ -1,4 +1,3 @@
-from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.fields import SlugField
@@ -7,7 +6,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.sessions.models import Session
 
-
+from uuid import uuid4
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, Thumbnail, ResizeToFit
 
@@ -125,11 +124,14 @@ class Comment(models.Model):
         return self.description
 
 
+def get_default_uuid():
+    return uuid4().hex
+
 class Tag(models.Model):
     """A class defining a tag model"""
 
     # Fields
-    word = models.CharField(max_length=20, unique=True, default="")
+    word = models.CharField(max_length=20, unique=True, default=get_default_uuid)
     blogposts = models.ManyToManyField(BlogPost, blank=True)
     quantity = models.IntegerField(default=0)
 

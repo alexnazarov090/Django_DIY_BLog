@@ -63,7 +63,7 @@
     <ul class="most_freq_words__list">
         {% for tag in tags %}
         <li class="most_freq_words__list-item">
-            <a href="{% url 'blog:related-blogposts' tag.pk %}" class="link-dark">{{ tag.word }}</a>
+            <a href="{% url 'blog:tags' tag.word %}" class="link-dark">{{ tag.word }}</a>
         </li>
         {% endfor %}
     </ul>

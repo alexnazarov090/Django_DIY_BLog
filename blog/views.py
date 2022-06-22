@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.core.cache import cache
 from datetime import date
+from django.db.models import Q
 
 from .utils import get_total_num, get_top_contributors, get_most_pop_cats, get_tags
 from .models import BlogPost, BlogAuthor, Comment, Tag
@@ -38,11 +39,11 @@ def index(request):
 
     return render(request, 'blog/index.html', context=context)
 
-def get_related_blogposts(request, pk):
-    tag = Tag.objects.get(pk=pk)
+def get_related_blogposts(request, word):
+    tag = Tag.objects.get(word=word)
     blogposts = tag.blogposts.all()
     context = {'blogposts': blogposts}
-    return render(request, 'blog/related_blogposts.html', context=context)
+    return render(request, 'blog/tags.html', context=context)
 
 def update_like_dislike_count(request, slug):
     """
@@ -90,6 +91,22 @@ def update_like_dislike_count(request, slug):
     if request.is_ajax and request.method == 'GET':
         ser_blogpost = serializers.serialize('json', [ blogpost, ])
         return JsonResponse({"blogpost": ser_blogpost}, status=200)
+
+def search(request):
+    """
+    Search related blogposts
+    """
+    searched_word = request.GET.get("search")
+
+    if searched_word:
+        related_blogposts = BlogPost.objects.filter(
+                            Q(description__icontains=f"{searched_word}") | 
+                            Q(description__icontains=f"{searched_word}"))
+    else:
+        related_blogposts = {}
+
+    context = {'related_blogposts': related_blogposts, 'searched_word': searched_word}
+    return render(request, 'blog/search_results.html', context=context)
 
 
 # class-based views

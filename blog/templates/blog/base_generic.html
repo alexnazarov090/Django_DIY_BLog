@@ -44,6 +44,13 @@
                 <li><a href="{% url 'users:login'%}?next={{request.path}}" class="nav__link link-light">Log In /</a> <a href="{% url 'users:signup' %}?next={{request.path}}" class="nav__link link-light">Sign Up</a></li>
             {% endif %}
         </ul>
+        <form action="{% url 'blog:search' %}" method="get" class="search-form">
+            <label for="search" class="search-form__label"></label>
+            <input type="text" name="search" id="search" class="search-form__text-input" placeholder="Type in a word">
+            <button type="submit" id="search-form__submit-btn" class="search-form__submit-btn">
+                <i class="fas fa-search fa-2x"></i>
+            </button>
+        </form>
         {% endblock %}
     </nav>
     <main id="content" class="content">

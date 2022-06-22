@@ -73,7 +73,7 @@ def update_tags():
     blogpost_dict = {}
     blogposts = BlogPost.objects.all()
 
-    download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
+    # download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
 
     # nltk.download('punkt', download_dir=download_dir)
     # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
@@ -105,7 +105,7 @@ def delete_tags(blogpost):
     """
     Delete tags if necessary
     """
-    download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
+    # download_dir = os.path.join(f'{CURRENT_WORKING_DIR}', 'nltk_data')
 
     # nltk.download('punkt', download_dir=download_dir)
     # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
