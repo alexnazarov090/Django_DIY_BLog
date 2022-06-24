@@ -45,11 +45,13 @@
             {% endif %}
         </ul>
         <form action="{% url 'blog:search' %}" method="get" class="search-form">
-            <label for="search" class="search-form__label"></label>
-            <input type="text" name="search" id="search" class="search-form__text-input" placeholder="Type in a word">
-            <button type="submit" id="search-form__submit-btn" class="search-form__submit-btn">
-                <i class="fas fa-search fa-2x"></i>
-            </button>
+            <label for="search" class="search-form__label">Search</label>
+            <div>
+                <input type="text" name="search" id="search" class="search-form__text-input" placeholder="Type in a word" required>
+                <button type="submit" id="search-form__submit-btn" class="search-form__submit-btn">
+                    <i class="fas fa-search fa-2x"></i>
+                </button>
+            </div>
         </form>
         {% endblock %}
     </nav>
