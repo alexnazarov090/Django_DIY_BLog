@@ -3,6 +3,7 @@ import re
 import nltk
 import os
 import logging
+import html
 
 from django.db.models import Count
 from django.core.cache import cache
@@ -65,6 +66,13 @@ def get_tags():
 
     return tags
 
+def replace_html_entities(match):
+    """
+    Replace html entities with unicode chars, eg. &rsquo;
+    """
+    match = match.group(0)
+    return html.unescape(match)
+
 def update_tags():
     """
     Update a list of most frequently used words
@@ -78,14 +86,13 @@ def update_tags():
     # nltk.download('punkt', download_dir=download_dir)
     # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
 
-    regex = r'\w{2,}'
-
     for blogpost in blogposts:
-        bp_desc = blogpost.description
-        tokens = nltk.word_tokenize(bp_desc)
+        bp_desc = re.sub(r'<[^<]+?>', '', blogpost.description , flags=re.MULTILINE) # strip html tags, eg. <p></p>
+        cleaned_bp_desc = re.sub(r"(&\S+;)", replace_html_entities, bp_desc) # replace html entities with unicode chars, eg. &rsquo;
+        tokens = nltk.word_tokenize(cleaned_bp_desc)
         tagged = nltk.pos_tag(tokens)
         for word, tg in tagged:
-            if tg.startswith('N') and re.search(regex, word):
+            if tg.startswith('N') and re.search(r'\w{2,}', word):
                 frequent_words[word] = frequent_words.get(word, 0) + 1
                 blogpost_dict[word] = blogpost_dict.get(word, set())
                 blogpost_dict[word].add(blogpost)

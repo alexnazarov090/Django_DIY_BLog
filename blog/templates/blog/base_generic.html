@@ -15,9 +15,10 @@
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         const user = '{{request.user}}';
     </script>
+    {{ form.media }}
 </head>
 <body>
-    <div class="mobile-nav"></div>
+    <div class="mobile-nav"></div> 
     <div class="hamburger-menu-btn">
         <span></span>
     </div>

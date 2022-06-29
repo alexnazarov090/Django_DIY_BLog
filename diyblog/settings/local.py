@@ -34,6 +34,7 @@ INSTALLED_APPS += [
     'crispy_bootstrap5',
     'anymail',
     'storages',
+    'tinymce',
     # My Apps
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',

@@ -209,6 +209,7 @@ a {
 
 .search-form__text-input {
     font-size: inherit;
+    font-family: inherit;
     width: 8em;
     height: 2em;
     border-radius: 5px;
@@ -224,8 +225,12 @@ a {
 .search-form__submit-btn {
     flex-basis: 3.5em;
     height: 3em;
+    margin-right: 2em;
     background-color: var(--clr-primary-text-light);
     border-radius: 5px;
+    font-family: initial;
+    font-size: initial;
+    line-height: initial;
 }
 
 .search-form__submit-btn:hover {
@@ -622,6 +627,7 @@ main {
 .form-control, .form-select {
     font-size: inherit;
 }
+
 
 /* ===========Utility Classes=========== */
 

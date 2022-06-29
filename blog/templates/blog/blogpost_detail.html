@@ -12,7 +12,7 @@
         Viewed {{ blogpost.views }} time{{ blogpost.views|pluralize }}
     </p>
     <img src="{{blogpost.image.url}}" alt="{{blogpost.title}} Image">
-    <p>{{ blogpost.description }}</p>
+    <p>{{ blogpost.description|safe }}</p>
 </section>
 
 <section class="blogpost__rating">

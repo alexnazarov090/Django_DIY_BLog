@@ -9,6 +9,7 @@ from django.contrib.sessions.models import Session
 from uuid import uuid4
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, Thumbnail, ResizeToFit
+from tinymce.models import HTMLField
 
 
 # Create your models here.
@@ -25,7 +26,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=100, help_text='Enter a name for a blog post')
     post_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey('BlogAuthor', on_delete=models.SET_NULL, null=True)
-    description = models.TextField(help_text='Type in blog post content')
+    description = HTMLField(help_text='Type in blog post content')
     slug = SlugField(max_length=100, null=False, unique=True)
     likes = models.CharField(max_length=10, default='0')
     dislikes = models.CharField(max_length=10, default='0')
