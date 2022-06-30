@@ -72,7 +72,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = AWS_URL + '/media/'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'blog.storages.CustomS3Boto3Storage'
 
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_AGE = 600
