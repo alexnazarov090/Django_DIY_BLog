@@ -87,7 +87,7 @@ def update_tags():
     # nltk.download('averaged_perceptron_tagger', download_dir=download_dir)
 
     for blogpost in blogposts:
-        bp_desc = re.sub(r'<[^<]+?>', '', blogpost.description , flags=re.MULTILINE) # strip html tags, eg. <p></p>
+        bp_desc = re.sub(r'<[^<]+?>', '', blogpost.description, flags=re.MULTILINE) # strip html tags, eg. <p></p>
         cleaned_bp_desc = re.sub(r"(&\S+;)", replace_html_entities, bp_desc) # replace html entities with unicode chars, eg. &rsquo;
         tokens = nltk.word_tokenize(cleaned_bp_desc)
         tagged = nltk.pos_tag(tokens)
