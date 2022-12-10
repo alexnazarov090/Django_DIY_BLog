@@ -61,12 +61,16 @@ DB_CONNECTION_STRING = env("DB_CONNECTION_STRING", default='DB_CONNECTION_STRING
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# # Simplified static file serving.
+# # https://warehouse.python.org/project/whitenoise/
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = '/home/c67855/mein-django-diy-blog.na4u.ru/www/static'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 
 MEDIA_URL = AWS_URL + '/media/'
 DEFAULT_FILE_STORAGE = 'blog.storages.CustomS3Boto3Storage'
