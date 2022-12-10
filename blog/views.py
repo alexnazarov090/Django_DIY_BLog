@@ -100,7 +100,7 @@ def search(request):
 
     if searched_word:
         related_blogposts = BlogPost.objects.filter(
-                            Q(description__icontains=f"{searched_word}") | 
+                            Q(title__icontains=f"{searched_word}") | 
                             Q(description__icontains=f"{searched_word}"))
     else:
         related_blogposts = {}
