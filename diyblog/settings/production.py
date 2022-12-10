@@ -30,16 +30,16 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 # Database
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': env("SQL_ENGINE", default='django.db.backends.postgresql'),
+DATABASES = {
+    'default': {
+        'ENGINE': env("SQL_ENGINE", default='django.db.backends.postgresql'),
 #         'NAME': env("SQL_DATABASE", default='diy_blog_prod'),
 #         "USER": env("SQL_USER", default="user"),
 #         "PASSWORD": env("SQL_PASSWORD", default="password"),
 #         "HOST": env("SQL_HOST", default="localhost"),
 #         "PORT": env("SQL_PORT", default="5432"),
-#     }
-# }
+    }
+}
 
 DB_CONNECTION_STRING = env("DB_CONNECTION_STRING", default='DB_CONNECTION_STRING')
 
