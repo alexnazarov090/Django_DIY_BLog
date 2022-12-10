@@ -33,11 +33,11 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 DATABASES = {
     'default': {
         'ENGINE': env("SQL_ENGINE", default='django.db.backends.postgresql'),
-#         'NAME': env("SQL_DATABASE", default='diy_blog_prod'),
-#         "USER": env("SQL_USER", default="user"),
-#         "PASSWORD": env("SQL_PASSWORD", default="password"),
-#         "HOST": env("SQL_HOST", default="localhost"),
-#         "PORT": env("SQL_PORT", default="5432"),
+        'NAME': env("DBNAME", default='diy_blog_prod'),
+        "USER": env("DBUSER", default="user"),
+        "PASSWORD": env("DBPASS", default="password"),
+        "HOST": env("DBHOST", default="localhost"),
+        "PORT": env("APP_PORT", default="5432"),
     }
 }
 
