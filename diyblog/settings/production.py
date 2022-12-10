@@ -23,9 +23,9 @@ AWS_S3_REGION_NAME = 'us-east-1'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 
-MIDDLEWARE += [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    ]
+# MIDDLEWARE += [
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+#     ]
 
 
 # Database
