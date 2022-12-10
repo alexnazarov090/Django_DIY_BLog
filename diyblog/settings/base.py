@@ -13,6 +13,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'imagekit',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'anymail',
+    'storages',
+    'tinymce',
+    # My Apps
+    'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 ]
 
 

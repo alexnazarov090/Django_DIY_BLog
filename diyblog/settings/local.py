@@ -26,20 +26,6 @@ AWS_DEFAULT_ACL = None
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 
-# Application definition
-
-INSTALLED_APPS += [
-    'imagekit',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'anymail',
-    'storages',
-    'tinymce',
-    # My Apps
-    'blog.apps.BlogConfig',
-    'users.apps.UsersConfig',
-]
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
