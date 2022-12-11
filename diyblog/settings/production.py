@@ -52,9 +52,10 @@ DATABASES = {'default': dj_database_url.config(default=env("DB_CONNECTION_STRING
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/c67855/mein-django-diy-blog.na4u.ru/www/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = '/home/c67855/mein-django-diy-blog.na4u.ru/www/static'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "nltk_data",
 ]
 
 
