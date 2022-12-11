@@ -33,20 +33,19 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 DATABASES = {
     'default': {
         'ENGINE': env("SQL_ENGINE", default='django.db.backends.postgresql'),
-        'NAME': env("DBNAME", default='diy_blog_prod'),
-        "USER": env("DBUSER", default="user"),
-        "PASSWORD": env("DBPASS", default="password"),
-        "HOST": env("DBHOST", default="localhost"),
-        "PORT": env("APP_PORT", default="5432"),
+        # 'NAME': env("DBNAME", default='diy_blog_prod'),
+        # "USER": env("DBUSER", default="user"),
+        # "PASSWORD": env("DBPASS", default="password"),
+        # "HOST": env("DBHOST", default="localhost"),
+        # # "PORT": env("APP_PORT", default="5432"),
     }
 }
 
-DB_CONNECTION_STRING = env("DB_CONNECTION_STRING", default='DB_CONNECTION_STRING')
 
-# # Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+DATABASES = {'default': dj_database_url.config(default=env("DB_CONNECTION_STRING", default='postgres://...'))}
 
 # # Simplified static file serving.
 # # https://warehouse.python.org/project/whitenoise/
@@ -88,19 +87,37 @@ LOGGING = {
             'format': '%(levelname)s %(message)s'
         },
     },
-    'disable_existing_loggers': False,
     'handlers': {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
             'formatter': 'verbose'
         },
     },
+    'root': {
+        'handlers': ['file'],
+        'level': 'INFO',
+    },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'handlers': ['file'],
+            'level': 'DEBUG',
             'propagate': True,
         },
-    },
+        'blog': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
 }
+
+if DEBUG:
+    for logger in LOGGING['loggers']:
+        LOGGING['loggers'][logger]['handlers'] = ['file']
