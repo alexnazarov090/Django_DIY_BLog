@@ -5,6 +5,11 @@ from blog.models import BlogAuthor, BlogPost
 from .utils import update_tags, delete_tags
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 @receiver(post_delete, sender=BlogAuthor)
 def delete_blogger_status(sender, instance, **kwargs):
     instance.username.is_blogger = False
@@ -12,7 +17,8 @@ def delete_blogger_status(sender, instance, **kwargs):
 
 @receiver(post_save, sender=BlogPost)
 def manage_tags_post_save(sender, instance, **kwargs):
-    update_tags()
+    if instance._update_tags:
+        update_tags()
 
 @receiver(post_delete, sender=BlogPost)
 def manage_tags_post_delete(sender, instance, **kwargs):

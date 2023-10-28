@@ -66,8 +66,11 @@ class BlogPost(models.Model):
         ordering = ['-post_date']
 
     # Methods
-    def save(self, *args, **kwargs):
+    def save(self, update_tags=True, *args, **kwargs):
         self.slug = self.slug or slugify(str(self.post_date) + '-' + self.title, allow_unicode=True)
+
+        self._update_tags = update_tags
+
         super().save(*args, **kwargs)
 
     def display_viewed_users(self):

@@ -85,8 +85,7 @@ def update_like_dislike_count(request, slug):
             if blogpost_likes > 0:
                 blogpost.likes = str(blogpost_likes - 1)
     
-    logger.info(blogpost.liked_disliked_users)
-    blogpost.save()
+    blogpost.save(update_tags=False)
 
     if request.is_ajax and request.method == 'GET':
         ser_blogpost = serializers.serialize('json', [ blogpost, ])
@@ -145,15 +144,14 @@ class BlogPostDetailView(generic.DetailView):
         if self.request.user.is_authenticated:
             if self.request.user not in blogpost.viewed_users.all():
                 blogpost.viewed_users.add(self.request.user)
-                blogpost.views += 1
-                blogpost.save()
+
         else:
             session_id= self.request.session.session_key
             if session_id and session_id not in blogpost.anonymous_users:
                 blogpost.anonymous_users.append(session_id)
-                blogpost.views += 1
-                blogpost.save()
 
+        blogpost.views += 1 
+        blogpost.save(update_tags=False)
         context['views'] = blogpost.views
 
         if len(blogpost.liked_disliked_users) == 0:
